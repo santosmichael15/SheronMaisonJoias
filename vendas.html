@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendas | Sheron Maison</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #8C123D;
+            --cor-secundaria: #FDF1F4;
+            --cor-fundo: #FAFAFA;
+            --cor-texto: #2C2C2C;
+            --cor-texto-claro: #666666;
+            --transicao: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+        a { color: inherit; text-decoration: none; transition: var(--transicao); }
+        button, select { font-family: 'Montserrat', sans-serif; }
+
+        .sales-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            background: white;
+            padding: 18px 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            color: var(--cor-primaria);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ghost-btn,
+        .primary-btn,
+        .small-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transicao);
+        }
+
+        .ghost-btn {
+            background: white;
+            color: var(--cor-primaria);
+            border: 1px solid rgba(140, 18, 61, 0.35);
+            font-size: 0.82rem;
+            letter-spacing: 0.6px;
+            padding: 10px 14px;
+            text-transform: uppercase;
+        }
+
+        .ghost-btn:hover { background: var(--cor-secundaria); border-color: var(--cor-primaria); }
+
+        .primary-btn,
+        .small-btn {
+            background: var(--cor-primaria);
+            color: white;
+            border: 1px solid var(--cor-primaria);
+        }
+
+        .primary-btn {
+            font-size: 0.86rem;
+            letter-spacing: 0.8px;
+            padding: 13px 18px;
+            text-transform: uppercase;
+        }
+
+        .small-btn {
+            font-size: 0.78rem;
+            letter-spacing: 0.4px;
+            padding: 8px 10px;
+        }
+
+        .primary-btn:hover,
+        .small-btn:hover { background: #741032; border-color: #741032; }
+
+        .sales-shell {
+            width: min(1120px, 90%);
+            margin: 0 auto;
+            padding: 42px 0 70px;
+        }
+
+        .sales-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            gap: 24px;
+            align-items: stretch;
+            margin-bottom: 28px;
+        }
+
+        .hero-panel,
+        .summary-panel,
+        .order-card,
+        .access-card {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(44, 44, 44, 0.08);
+        }
+
+        .hero-panel {
+            position: relative;
+            overflow: hidden;
+            min-height: 230px;
+            background:
+                linear-gradient(120deg, rgba(44,44,44,0.72), rgba(140,18,61,0.58)),
+                url('https://images.unsplash.com/photo-1607343381936-d8b80aad41a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-position: center;
+            background-size: cover;
+            color: white;
+            padding: 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .hero-panel span {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero-panel h1 {
+            color: white;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1;
+            margin-top: 8px;
+        }
+
+        .hero-panel p {
+            color: rgba(255,255,255,0.86);
+            margin-top: 10px;
+            max-width: 620px;
+        }
+
+        .summary-panel {
+            display: grid;
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--cor-secundaria);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .summary-item i { color: var(--cor-primaria); }
+        .summary-item strong { display: block; font-size: 1.2rem; }
+        .summary-item span { color: var(--cor-texto-claro); font-size: 0.84rem; }
+
+        .orders-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .order-card {
+            overflow: hidden;
+            padding: 18px;
+        }
+
+        .order-card-header,
+        .order-footer {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        .order-card-header {
+            background: #8C123D;
+            margin: -18px -18px 14px;
+            padding: 18px;
+        }
+
+        .order-id {
+            color: var(--cor-texto);
+            font-weight: 700;
+            letter-spacing: 0.4px;
+        }
+
+        .order-client,
+        .loading-state {
+            color: var(--cor-texto-claro);
+            font-size: 0.86rem;
+        }
+
+        .order-card-header .order-id {
+            color: white;
+        }
+
+        .order-card-header .order-client {
+            color: rgba(255,255,255,0.84);
+        }
+
+        .order-card-header .status-badge,
+        .order-card-header .status-badge.waiting,
+        .order-card-header .status-badge.paid,
+        .order-card-header .status-badge.preparing,
+        .order-card-header .status-badge.sent,
+        .order-card-header .status-badge.delivered,
+        .order-card-header .status-badge.cancelled {
+            background: rgba(255,255,255,0.16);
+            border: 1px solid rgba(255,255,255,0.28);
+            color: white;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 6px 10px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status-badge.waiting { background: #fff7ed; color: #b45309; }
+        .status-badge.paid { background: #f4f7f2; color: #3d6b37; }
+        .status-badge.preparing { background: var(--cor-secundaria); color: var(--cor-primaria); }
+        .status-badge.sent { background: #eff6ff; color: #1d4ed8; }
+        .status-badge.delivered { background: #ecfdf5; color: #047857; }
+        .status-badge.cancelled { background: #fef2f2; color: #b42318; }
+
+        .order-card-header .status-badge.waiting {
+            background: #fff7ed;
+            border-color: rgba(180, 83, 9, 0.18);
+            color: #b45309;
+        }
+
+        .order-card-header .status-badge.paid {
+            background: #f4f7f2;
+            border-color: rgba(61, 107, 55, 0.18);
+            color: #3d6b37;
+        }
+
+        .order-card-header .status-badge.preparing {
+            background: var(--cor-secundaria);
+            border-color: rgba(140, 18, 61, 0.18);
+            color: var(--cor-primaria);
+        }
+
+        .order-card-header .status-badge.sent {
+            background: #eff6ff;
+            border-color: rgba(29, 78, 216, 0.18);
+            color: #1d4ed8;
+        }
+
+        .order-card-header .status-badge.delivered {
+            background: #ecfdf5;
+            border-color: rgba(4, 120, 87, 0.18);
+            color: #047857;
+        }
+
+        .order-card-header .status-badge.cancelled {
+            background: #fef2f2;
+            border-color: rgba(180, 35, 24, 0.18);
+            color: #b42318;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .order-box {
+            background: var(--cor-fundo);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .order-box span {
+            display: block;
+            color: var(--cor-primaria);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .order-box p,
+        .order-item {
+            color: var(--cor-texto-claro);
+            font-size: 0.86rem;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid #eee;
+            padding: 8px 0;
+        }
+
+        .order-item:first-of-type { border-top: none; padding-top: 0; }
+        .order-item strong { color: var(--cor-texto); }
+
+        .seller-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 12px 0;
+            background: linear-gradient(120deg, rgba(140,18,61,0.12), rgba(44,44,44,0.06));
+            border: 1px solid rgba(140,18,61,0.18);
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .seller-row .order-client {
+            color: var(--cor-primaria);
+            font-weight: 600;
+        }
+
+        .seller-select {
+            background: white;
+            border: 1px solid rgba(140,18,61,0.28);
+            border-radius: 4px;
+            color: var(--cor-texto);
+            padding: 10px 12px;
+            min-width: 210px;
+        }
+
+        .order-footer {
+            align-items: center;
+            border-top: 1px solid #eee;
+            padding-top: 14px;
+        }
+
+        .order-total {
+            color: var(--cor-texto);
+            font-size: 1.08rem;
+            font-weight: 700;
+        }
+
+        .order-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .access-state {
+            display: grid;
+            place-items: center;
+            min-height: calc(100vh - 88px);
+            padding: 5%;
+        }
+
+        .access-card {
+            width: min(440px, 100%);
+            padding: 34px;
+            text-align: center;
+        }
+
+        .access-card i {
+            color: var(--cor-primaria);
+            font-size: 2.1rem;
+            margin-bottom: 14px;
+        }
+
+        .access-card h1 { font-size: 2rem; margin-bottom: 10px; }
+        .access-card p { color: var(--cor-texto-claro); margin-bottom: 22px; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 860px) {
+            .sales-header,
+            .order-card-header,
+            .order-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-actions { flex-wrap: wrap; }
+            .sales-hero,
+            .order-grid { grid-template-columns: 1fr; }
+            .ghost-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <section class="access-state" id="access-state">
+        <div class="access-card">
+            <i class="fas fa-receipt"></i>
+            <h1>Verificando acesso</h1>
+            <p>Aguarde enquanto confirmamos seu acesso de vendas.</p>
+            <a href="index.html" class="ghost-btn">Voltar à loja</a>
+        </div>
+    </section>
+
+    <div id="sales-app" class="hidden">
+        <header class="sales-header">
+            <a href="index.html" class="logo">Sheron Maison</a>
+            <div class="header-actions">
+                <a href="index.html" class="ghost-btn">
+                    <i class="fas fa-store"></i> Loja
+                </a>
+                <button class="ghost-btn" type="button" onclick="sairVendas()">
+                    <i class="fas fa-right-from-bracket"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <main class="sales-shell">
+            <section class="sales-hero">
+                <div class="hero-panel">
+                    <span><i class="fas fa-user-tag"></i> Painel de vendas</span>
+                    <h1>Vendas</h1>
+                    <p>Acompanhe pedidos, defina o vendedor responsável e avance as etapas de entrega.</p>
+                </div>
+                <aside class="summary-panel">
+                    <div class="summary-item">
+                        <i class="fas fa-clock"></i>
+                        <div><strong id="sales-waiting">0</strong><span>aguardando Pix</span></div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fas fa-box-open"></i>
+                        <div><strong id="sales-progress">0</strong><span>em andamento</span></div>
+                    </div>
+                    <div class="summary-item">
+                        <i class="fas fa-house-circle-check"></i>
+                        <div><strong id="sales-delivered">0</strong><span>entregues</span></div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="orders-list" id="sales-orders">
+                <p class="loading-state">Carregando pedidos...</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        let pedidosVendas = [];
+        let funcionariosVendas = [];
+        let unsubscribePedidosVendas = null;
+        let unsubscribeFuncionariosVendas = null;
+
+        function escaparHtml(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatarMoeda(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function formatarDataPedido(timestamp) {
+            if (!timestamp) return 'Sem data';
+            const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return data.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function obterStatusPedido(status) {
+            const statusMap = {
+                aguardando_pix: { classe: 'waiting', texto: 'Aguardando Pix', icon: 'fa-clock' },
+                pago: { classe: 'paid', texto: 'Pagamento confirmado', icon: 'fa-circle-check' },
+                em_separacao: { classe: 'preparing', texto: 'Em separação', icon: 'fa-box-open' },
+                enviado: { classe: 'sent', texto: 'Enviado', icon: 'fa-truck-fast' },
+                entregue: { classe: 'delivered', texto: 'Entregue', icon: 'fa-house-circle-check' },
+                cancelado: { classe: 'cancelled', texto: 'Cancelado', icon: 'fa-ban' }
+            };
+
+            return statusMap[status] || statusMap.aguardando_pix;
+        }
+
+        function obterProximaAcaoPedido(status) {
+            const proximasAcoes = {
+                pago: { proximoStatus: 'em_separacao', texto: 'Iniciar separação', confirmar: 'Marcar este pedido como em separação?' },
+                em_separacao: { proximoStatus: 'enviado', texto: 'Marcar como enviado', confirmar: 'Marcar este pedido como enviado?' },
+                enviado: { proximoStatus: 'entregue', texto: 'Marcar como entregue', confirmar: 'Marcar este pedido como entregue?' }
+            };
+
+            return proximasAcoes[status] || null;
+        }
+
+        function renderizarAcaoPedidoFuncionario(pedido, proximaAcao) {
+            if (proximaAcao) {
+                return `<button class="small-btn" type="button" onclick="avancarStatusPedido('${pedido.id}', '${proximaAcao.proximoStatus}')">${proximaAcao.texto}</button>`;
+            }
+
+            if (pedido.status === 'aguardando_pix') {
+                return '<span class="order-client">Aguardando ADM confirmar pagamento.</span>';
+            }
+
+            return '';
+        }
+
+        function atualizarResumoVendas() {
+            document.getElementById('sales-waiting').innerText = pedidosVendas.filter(pedido => pedido.status === 'aguardando_pix').length;
+            document.getElementById('sales-progress').innerText = pedidosVendas.filter(pedido => ['pago', 'em_separacao', 'enviado'].includes(pedido.status)).length;
+            document.getElementById('sales-delivered').innerText = pedidosVendas.filter(pedido => pedido.status === 'entregue').length;
+        }
+
+        function renderizarEntrega(pedido) {
+            const endereco = pedido.enderecoEntrega;
+            if (!endereco || !endereco.cep) return '<p>Endereço não informado.</p>';
+
+            const complemento = endereco.complemento ? ` - ${endereco.complemento}` : '';
+            return `
+                <p><strong>${escaparHtml(endereco.rua)}, ${escaparHtml(endereco.numero)}${escaparHtml(complemento)}</strong></p>
+                <p>${escaparHtml(endereco.bairro)} - ${escaparHtml(endereco.cidade)} / ${escaparHtml(endereco.estado)}</p>
+                <p>CEP ${escaparHtml(endereco.cep)}</p>
+            `;
+        }
+
+        function renderizarItens(pedido) {
+            const itens = pedido.itens || [];
+            if (!itens.length) return '<div class="order-item"><span>Sem itens</span><strong>-</strong></div>';
+
+            return itens.map(item => `
+                <div class="order-item">
+                    <span>${escaparHtml(item.nome)}</span>
+                    <strong>${formatarMoeda(item.preco)}</strong>
+                </div>
+            `).join('');
+        }
+
+        function renderizarVendedor(pedido) {
+            const opcoes = funcionariosVendas
+                .filter(funcionario => funcionario.ativo !== false)
+                .map(funcionario => `<option value="${funcionario.id}" ${pedido.vendedorId === funcionario.id ? 'selected' : ''}>${escaparHtml(funcionario.nome)}</option>`)
+                .join('');
+
+            return `
+                <div class="seller-row">
+                    <span class="order-client">
+                        <i class="fas fa-user-tag"></i>
+                        ${pedido.vendedorNome ? `Responsável: ${escaparHtml(pedido.vendedorNome)}` : 'Sem vendedor responsável'}
+                    </span>
+                    <select class="seller-select" onchange="definirVendedorPedido('${pedido.id}', this.value)">
+                        <option value="">Definir funcionário</option>
+                        ${opcoes}
+                    </select>
+                </div>
+            `;
+        }
+
+        function renderizarPedidosVendas() {
+            const container = document.getElementById('sales-orders');
+            atualizarResumoVendas();
+
+            if (!pedidosVendas.length) {
+                container.innerHTML = '<p class="loading-state">Nenhum pedido encontrado.</p>';
+                return;
+            }
+
+            container.innerHTML = pedidosVendas.map(pedido => {
+                const status = obterStatusPedido(pedido.status);
+                const proximaAcao = obterProximaAcaoPedido(pedido.status);
+
+                return `
+                    <article class="order-card">
+                        <div class="order-card-header">
+                            <div>
+                                <div class="order-id">Pedido #${pedido.id.slice(0, 8).toUpperCase()}</div>
+                                <div class="order-client">${escaparHtml(pedido.clienteNome || pedido.clienteEmail || 'Cliente não informado')} • ${formatarDataPedido(pedido.criadoEm)}</div>
+                            </div>
+                            <span class="status-badge ${status.classe}">
+                                <i class="fas ${status.icon}"></i>
+                                ${status.texto}
+                            </span>
+                        </div>
+
+                        ${renderizarVendedor(pedido)}
+
+                        <div class="order-grid">
+                            <div class="order-box">
+                                <span>Itens</span>
+                                ${renderizarItens(pedido)}
+                            </div>
+                            <div class="order-box">
+                                <span>Entrega</span>
+                                ${renderizarEntrega(pedido)}
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-total">${formatarMoeda(pedido.total)}</div>
+                            <div class="order-actions">
+                                ${renderizarAcaoPedidoFuncionario(pedido, proximaAcao)}
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function carregarPedidosVendas() {
+            if (unsubscribePedidosVendas) unsubscribePedidosVendas();
+
+            unsubscribePedidosVendas = db.collection('pedidos').onSnapshot(snapshot => {
+                pedidosVendas = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => {
+                        const dataA = a.criadoEm && a.criadoEm.toMillis ? a.criadoEm.toMillis() : 0;
+                        const dataB = b.criadoEm && b.criadoEm.toMillis ? b.criadoEm.toMillis() : 0;
+                        return dataB - dataA;
+                    });
+
+                renderizarPedidosVendas();
+            }, error => {
+                console.error('Erro ao escutar pedidos.', error);
+                document.getElementById('sales-orders').innerHTML = `<p class="loading-state">Não foi possível acompanhar os pedidos. ${error.code ? `Erro: ${escaparHtml(error.code)}.` : ''}</p>`;
+            });
+        }
+
+        function carregarFuncionariosVendas() {
+            if (unsubscribeFuncionariosVendas) unsubscribeFuncionariosVendas();
+
+            unsubscribeFuncionariosVendas = db.collection('funcionarios').onSnapshot(snapshot => {
+                funcionariosVendas = snapshot.docs
+                    .map(doc => ({ id: doc.id, ...doc.data() }))
+                    .sort((a, b) => String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR'));
+
+                renderizarPedidosVendas();
+            }, error => {
+                console.error('Erro ao carregar funcionarios.', error);
+            });
+        }
+
+        async function definirVendedorPedido(pedidoId, funcionarioId) {
+            const pedido = pedidosVendas.find(item => item.id === pedidoId);
+            if (!pedido || !funcionarioId) return;
+
+            const funcionario = funcionariosVendas.find(item => item.id === funcionarioId);
+            if (!funcionario) return;
+
+            const dadosPedido = {
+                vendedorId: funcionario.id,
+                vendedorNome: funcionario.nome,
+                vendedorDefinidoEm: firebase.firestore.FieldValue.serverTimestamp(),
+                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            const batch = db.batch();
+            batch.set(db.collection('pedidos').doc(pedidoId), dadosPedido, { merge: true });
+            if (pedido.clienteId) {
+                batch.set(db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id), dadosPedido, { merge: true });
+            }
+            await batch.commit();
+        }
+
+        async function avancarStatusPedido(pedidoId, proximoStatus) {
+            const pedido = pedidosVendas.find(item => item.id === pedidoId);
+            const proximaAcao = pedido ? obterProximaAcaoPedido(pedido.status) : null;
+            if (!pedido || !proximaAcao || proximaAcao.proximoStatus !== proximoStatus) return;
+
+            const confirmado = confirm(proximaAcao.confirmar);
+            if (!confirmado) return;
+
+            const campoDataStatus = {
+                em_separacao: 'separacaoEm',
+                enviado: 'enviadoEm',
+                entregue: 'entregueEm'
+            }[proximoStatus];
+
+            const dadosPedido = {
+                status: proximoStatus,
+                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (campoDataStatus) {
+                dadosPedido[campoDataStatus] = firebase.firestore.FieldValue.serverTimestamp();
+            }
+
+            const batch = db.batch();
+            batch.set(db.collection('pedidos').doc(pedidoId), dadosPedido, { merge: true });
+            if (pedido.clienteId) {
+                batch.set(db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id), dadosPedido, { merge: true });
+            }
+            await batch.commit();
+        }
+
+        function mostrarAcessoNegado() {
+            document.getElementById('access-state').innerHTML = `
+                <div class="access-card">
+                    <i class="fas fa-lock"></i>
+                    <h1>Acesso restrito</h1>
+                    <p>Entre com o usuário funcionário para acessar vendas.</p>
+                    <a href="index.html#login" class="ghost-btn">Voltar ao login</a>
+                </div>
+            `;
+        }
+
+        async function liberarVendas(user) {
+            if (String(user.email || '').toLowerCase() === 'funcionarios@gmail.com') {
+                document.getElementById('access-state').classList.add('hidden');
+                document.getElementById('sales-app').classList.remove('hidden');
+                carregarFuncionariosVendas();
+                carregarPedidosVendas();
+                return;
+            }
+
+            const internoDoc = await db.collection('usuariosInternos').doc(user.uid).get();
+            const dados = internoDoc.exists ? internoDoc.data() : {};
+
+            if (!internoDoc.exists || dados.ativo !== true || dados.tipo !== 'funcionario') {
+                mostrarAcessoNegado();
+                return;
+            }
+
+            document.getElementById('access-state').classList.add('hidden');
+            document.getElementById('sales-app').classList.remove('hidden');
+            carregarFuncionariosVendas();
+            carregarPedidosVendas();
+        }
+
+        async function sairVendas() {
+            if (unsubscribePedidosVendas) unsubscribePedidosVendas();
+            if (unsubscribeFuncionariosVendas) unsubscribeFuncionariosVendas();
+            await auth.signOut();
+            window.location.href = 'index.html#login';
+        }
+
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) {
+                mostrarAcessoNegado();
+                return;
+            }
+
+            try {
+                await liberarVendas(user);
+            } catch (error) {
+                console.error(error);
+                mostrarAcessoNegado();
+            }
+        });
+    </script>
+</body>
+</html>

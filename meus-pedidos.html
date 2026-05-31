@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus pedidos | Sheron Maison</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #8C123D;
+            --cor-secundaria: #FDF1F4;
+            --cor-fundo: #FAFAFA;
+            --cor-texto: #2C2C2C;
+            --cor-texto-claro: #666666;
+            --cor-borda: #E2E8F0;
+            --transicao: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, rgba(253, 241, 244, 0.62), rgba(250, 250, 250, 0.72)),
+                url('./Imagens utilizadas/colar-ajuste.avif') center/cover fixed;
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        button {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .orders-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 18px 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            color: var(--cor-primaria);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ghost-btn,
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            padding: 11px 15px;
+            text-transform: uppercase;
+            transition: var(--transicao);
+        }
+
+        .ghost-btn {
+            background: white;
+            color: var(--cor-primaria);
+            border: 1px solid rgba(140, 18, 61, 0.35);
+        }
+
+        .ghost-btn:hover {
+            background: var(--cor-secundaria);
+            border-color: var(--cor-primaria);
+        }
+
+        .primary-btn {
+            background: var(--cor-primaria);
+            color: white;
+            border: 1px solid var(--cor-primaria);
+        }
+
+        .primary-btn:hover {
+            background: #741032;
+            border-color: #741032;
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.22);
+        }
+
+        .orders-shell {
+            width: min(1120px, 90%);
+            margin: 0 auto;
+            padding: 48px 0 72px;
+        }
+
+        .orders-hero,
+        .orders-summary,
+        .order-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(140, 18, 61, 0.10);
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(44, 44, 44, 0.10);
+            backdrop-filter: blur(10px);
+        }
+
+        .orders-hero {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 24px;
+            padding: 30px;
+        }
+
+        .hero-icon {
+            display: grid;
+            place-items: center;
+            width: 76px;
+            height: 76px;
+            flex: 0 0 76px;
+            background: var(--cor-primaria);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.55rem;
+            box-shadow: 0 12px 24px rgba(140, 18, 61, 0.20);
+        }
+
+        .hero-copy span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--cor-primaria);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero-copy h1 {
+            margin-top: 8px;
+            color: var(--cor-texto);
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1;
+        }
+
+        .hero-copy p {
+            margin-top: 10px;
+            color: var(--cor-texto-claro);
+            max-width: 620px;
+        }
+
+        .orders-summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-bottom: 24px;
+            padding: 18px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(253, 241, 244, 0.72);
+            border: 1px solid #f0e2e7;
+            border-radius: 6px;
+            padding: 14px;
+        }
+
+        .summary-item i {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            background: white;
+            color: var(--cor-primaria);
+            border-radius: 50%;
+        }
+
+        .summary-item strong {
+            display: block;
+            color: var(--cor-texto);
+            font-size: 1.2rem;
+        }
+
+        .summary-item span {
+            color: var(--cor-texto-claro);
+            font-size: 0.82rem;
+        }
+
+        .orders-list {
+            display: grid;
+            gap: 18px;
+        }
+
+        .order-card {
+            overflow: hidden;
+            padding: 24px;
+        }
+
+        .order-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 18px;
+            background: #8C123D;
+            margin: -24px -24px 18px;
+            padding: 18px 24px;
+        }
+
+        .order-id {
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .order-date {
+            color: rgba(255,255,255,0.84);
+            font-size: 0.86rem;
+            margin-top: 3px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            padding: 7px 11px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .status-badge.waiting {
+            background: #fff7ed;
+            color: #b45309;
+        }
+
+        .status-badge.paid {
+            background: #f4f7f2;
+            color: #3d6b37;
+        }
+
+        .status-badge.preparing {
+            background: var(--cor-secundaria);
+            color: var(--cor-primaria);
+        }
+
+        .status-badge.sent {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .status-badge.delivered {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-badge.cancelled {
+            background: #fef2f2;
+            color: #b42318;
+        }
+
+        .order-top .status-badge.waiting {
+            background: #fff7ed;
+            border: 1px solid rgba(180, 83, 9, 0.18);
+            color: #b45309;
+        }
+
+        .order-top .status-badge.paid {
+            background: #f4f7f2;
+            border: 1px solid rgba(61, 107, 55, 0.18);
+            color: #3d6b37;
+        }
+
+        .order-top .status-badge.preparing {
+            background: var(--cor-secundaria);
+            border: 1px solid rgba(140, 18, 61, 0.18);
+            color: var(--cor-primaria);
+        }
+
+        .order-top .status-badge.sent {
+            background: #eff6ff;
+            border: 1px solid rgba(29, 78, 216, 0.18);
+            color: #1d4ed8;
+        }
+
+        .order-top .status-badge.delivered {
+            background: #ecfdf5;
+            border: 1px solid rgba(4, 120, 87, 0.18);
+            color: #047857;
+        }
+
+        .order-top .status-badge.cancelled {
+            background: #fef2f2;
+            border: 1px solid rgba(180, 35, 24, 0.18);
+            color: #b42318;
+        }
+
+        .progress-line {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            margin: 18px 0;
+            position: relative;
+        }
+
+        .progress-line::before {
+            content: "";
+            position: absolute;
+            top: 17px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: #eadde2;
+            z-index: 0;
+        }
+
+        .progress-step {
+            display: grid;
+            gap: 7px;
+            justify-items: center;
+            color: var(--cor-texto-claro);
+            font-size: 0.76rem;
+            position: relative;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .step-icon {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            background: var(--cor-fundo);
+            border: 1px solid #eee;
+            border-radius: 50%;
+            color: var(--cor-texto-claro);
+            position: relative;
+        }
+
+        .progress-step.done .step-icon::after {
+            content: "\f061";
+            color: var(--cor-primaria);
+            font-family: "Font Awesome 6 Free";
+            font-size: 0.7rem;
+            font-weight: 900;
+            left: calc(100% + 22px);
+            position: absolute;
+        }
+
+        .progress-step:last-child .step-icon::after {
+            display: none;
+        }
+
+        .progress-step.active .step-icon,
+        .progress-step.done .step-icon {
+            background: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+            color: white;
+        }
+
+        .progress-step.done,
+        .progress-step.active {
+            color: var(--cor-texto);
+            font-weight: 600;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .order-box {
+            background: rgba(250, 250, 250, 0.78);
+            border: 1px solid #eee;
+            border-radius: 6px;
+            padding: 14px;
+        }
+
+        .order-box-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cor-primaria);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            border-top: 1px solid #eee;
+            color: var(--cor-texto-claro);
+            font-size: 0.88rem;
+            padding: 9px 0;
+        }
+
+        .order-item:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .order-item strong {
+            color: var(--cor-texto);
+            white-space: nowrap;
+        }
+
+        .delivery-text {
+            color: var(--cor-texto-claro);
+            font-size: 0.88rem;
+        }
+
+        .delivery-text strong {
+            display: block;
+            color: var(--cor-texto);
+            margin-bottom: 3px;
+        }
+
+        .order-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border-top: 1px solid #eee;
+            margin-top: 18px;
+            padding-top: 16px;
+        }
+
+        .order-total {
+            color: var(--cor-texto);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .rating-box {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .rating-label {
+            color: var(--cor-texto-claro);
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+
+        .stars {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .star-btn {
+            background: transparent;
+            border: none;
+            color: #d1d5db;
+            cursor: pointer;
+            font-size: 1.15rem;
+            line-height: 1;
+            padding: 2px;
+            transition: var(--transicao);
+        }
+
+        .star-btn.active,
+        .star-btn.preview {
+            color: #b45309;
+            transform: translateY(-1px);
+        }
+
+        .rating-feedback {
+            color: var(--cor-primaria);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .empty-state,
+        .access-state {
+            display: grid;
+            place-items: center;
+            min-height: calc(100vh - 88px);
+            padding: 5%;
+        }
+
+        .state-card {
+            width: min(460px, 100%);
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(140, 18, 61, 0.10);
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(44, 44, 44, 0.10);
+            padding: 34px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .state-card i {
+            color: var(--cor-primaria);
+            font-size: 2.1rem;
+            margin-bottom: 14px;
+        }
+
+        .state-card h1,
+        .state-card h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .state-card p {
+            color: var(--cor-texto-claro);
+            margin-bottom: 22px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 860px) {
+            .orders-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .orders-hero,
+            .order-top,
+            .order-footer {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .orders-summary,
+            .order-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-line {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-line::before {
+                bottom: 18px;
+                height: auto;
+                left: 17px;
+                right: auto;
+                top: 18px;
+                width: 2px;
+            }
+
+            .progress-step {
+                grid-template-columns: 36px 1fr;
+                justify-items: start;
+                text-align: left;
+            }
+
+            .progress-step.done .step-icon::after {
+                content: "\f063";
+                left: 50%;
+                top: calc(100% + 7px);
+                transform: translateX(-50%);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .orders-shell {
+                width: 92%;
+                padding-top: 32px;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .ghost-btn,
+            .primary-btn {
+                width: 100%;
+            }
+
+            .orders-hero,
+            .orders-summary,
+            .order-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="orders-header">
+        <a class="logo" href="index.html">Sheron Maison</a>
+        <div class="header-actions">
+            <a class="ghost-btn" href="index.html">
+                <i class="fas fa-store"></i>
+                Loja
+            </a>
+            <a class="ghost-btn" href="perfil.html">
+                <i class="fas fa-user"></i>
+                Meu Perfil
+            </a>
+            <button class="ghost-btn" type="button" onclick="sairPedidos()">
+                <i class="fas fa-right-from-bracket"></i>
+                Sair
+            </button>
+        </div>
+    </header>
+
+    <section class="access-state" id="access-state">
+        <div class="state-card">
+            <i class="fas fa-receipt"></i>
+            <h1>Carregando pedidos</h1>
+            <p>Aguarde enquanto buscamos seu histórico com segurança.</p>
+        </div>
+    </section>
+
+    <main class="orders-shell hidden" id="orders-app">
+        <section class="orders-hero">
+            <div class="hero-icon">
+                <i class="fas fa-bag-shopping"></i>
+            </div>
+            <div class="hero-copy">
+                <span><i class="fas fa-truck-fast"></i> Acompanhamento</span>
+                <h1>Meus pedidos</h1>
+                <p>Acompanhe o andamento das suas compras Pix, da confirmação até a entrega.</p>
+            </div>
+        </section>
+
+        <section class="orders-summary">
+            <div class="summary-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <strong id="summary-open">0</strong>
+                    <span>em andamento</span>
+                </div>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-house-circle-check"></i>
+                <div>
+                    <strong id="summary-delivered">0</strong>
+                    <span>entregues</span>
+                </div>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-receipt"></i>
+                <div>
+                    <strong id="summary-total">0</strong>
+                    <span>total de pedidos</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="orders-list" id="orders-list">
+            <div class="state-card">
+                <i class="fas fa-spinner fa-spin"></i>
+                <h2>Buscando pedidos</h2>
+                <p>Seu histórico aparecerá aqui em instantes.</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        let pedidosCliente = [];
+        let unsubscribePedidos = null;
+        const avaliacoesLocais = {};
+
+        const statusMap = {
+            aguardando_pix: { classe: 'waiting', texto: 'Aguardando Pix', icon: 'fa-clock', etapa: 0 },
+            pago: { classe: 'paid', texto: 'Pagamento confirmado', icon: 'fa-circle-check', etapa: 1 },
+            em_separacao: { classe: 'preparing', texto: 'Em separação', icon: 'fa-box-open', etapa: 2 },
+            enviado: { classe: 'sent', texto: 'Enviado', icon: 'fa-truck-fast', etapa: 3 },
+            entregue: { classe: 'delivered', texto: 'Entregue', icon: 'fa-house-circle-check', etapa: 4 },
+            cancelado: { classe: 'cancelled', texto: 'Cancelado', icon: 'fa-ban', etapa: -1 }
+        };
+
+        const etapas = [
+            { status: 'aguardando_pix', label: 'Pix', icon: 'fa-qrcode' },
+            { status: 'pago', label: 'Pago', icon: 'fa-circle-check' },
+            { status: 'em_separacao', label: 'Separação', icon: 'fa-box-open' },
+            { status: 'enviado', label: 'Enviado', icon: 'fa-truck-fast' },
+            { status: 'entregue', label: 'Entregue', icon: 'fa-house-circle-check' }
+        ];
+
+        function escaparHtml(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function formatarMoeda(valor) {
+            return Number(valor || 0).toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            });
+        }
+
+        function formatarData(timestamp) {
+            if (!timestamp) return 'Sem data';
+            const data = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return data.toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function obterStatus(status) {
+            return statusMap[status] || statusMap.aguardando_pix;
+        }
+
+        function renderizarLinhaProgresso(statusPedido) {
+            const status = obterStatus(statusPedido);
+
+            if (statusPedido === 'cancelado') {
+                return `
+                    <div class="progress-line">
+                        <div class="progress-step active">
+                            <div class="step-icon"><i class="fas fa-ban"></i></div>
+                            <span>Pedido cancelado</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="progress-line">
+                    ${etapas.map((etapa, index) => {
+                        const classe = index < status.etapa ? 'done' : (index === status.etapa ? 'active' : '');
+
+                        return `
+                            <div class="progress-step ${classe}">
+                                <div class="step-icon"><i class="fas ${etapa.icon}"></i></div>
+                                <span>${etapa.label}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderizarItensPedido(pedido) {
+            const itens = pedido.itens || [];
+
+            if (!itens.length) {
+                return '<div class="order-item"><span>Sem itens</span><strong>-</strong></div>';
+            }
+
+            return itens.map(item => `
+                <div class="order-item">
+                    <span>${escaparHtml(item.nome)}</span>
+                    <strong>${formatarMoeda(item.preco)}</strong>
+                </div>
+            `).join('');
+        }
+
+        function renderizarEndereco(pedido) {
+            const endereco = pedido.enderecoEntrega;
+
+            if (!endereco || !endereco.cep) {
+                return '<p class="delivery-text">Endereço não informado neste pedido.</p>';
+            }
+
+            const complemento = endereco.complemento ? ` - ${endereco.complemento}` : '';
+
+            return `
+                <div class="delivery-text">
+                    <strong>${escaparHtml(endereco.rua)}, ${escaparHtml(endereco.numero)}${escaparHtml(complemento)}</strong>
+                    <span>${escaparHtml(endereco.bairro)} - ${escaparHtml(endereco.cidade)} / ${escaparHtml(endereco.estado)}</span><br>
+                    <span>CEP ${escaparHtml(endereco.cep)}</span>
+                </div>
+            `;
+        }
+
+        function renderizarAvaliacao(pedido) {
+            if (pedido.status !== 'entregue') return '';
+
+            const nota = avaliacoesLocais[pedido.id] || 0;
+
+            return `
+                <div class="rating-box">
+                    <span class="rating-label">Como foi sua experiência?</span>
+                    <div class="stars" aria-label="Avaliação do pedido">
+                        ${[1, 2, 3, 4, 5].map(valor => `
+                            <button class="star-btn ${valor <= nota ? 'active' : ''}" type="button" onclick="avaliarPedido('${pedido.id}', ${valor})" onmouseenter="previsualizarAvaliacao('${pedido.id}', ${valor})" onmouseleave="previsualizarAvaliacao('${pedido.id}', ${nota})" data-rating-order="${pedido.id}" data-rating-value="${valor}" aria-label="${valor} estrela${valor > 1 ? 's' : ''}">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <span class="rating-feedback" id="rating-${pedido.id}">${nota ? `${nota}/5 selecionado` : ''}</span>
+                </div>
+            `;
+        }
+
+        function atualizarResumo() {
+            const abertos = pedidosCliente.filter(pedido => !['entregue', 'cancelado'].includes(pedido.status)).length;
+            const entregues = pedidosCliente.filter(pedido => pedido.status === 'entregue').length;
+
+            document.getElementById('summary-open').innerText = abertos;
+            document.getElementById('summary-delivered').innerText = entregues;
+            document.getElementById('summary-total').innerText = pedidosCliente.length;
+        }
+
+        function renderizarPedidos() {
+            const container = document.getElementById('orders-list');
+            atualizarResumo();
+
+            if (!pedidosCliente.length) {
+                container.innerHTML = `
+                    <div class="state-card">
+                        <i class="fas fa-bag-shopping"></i>
+                        <h2>Nenhum pedido ainda</h2>
+                        <p>Quando você finalizar uma compra por Pix, ela aparecerá aqui.</p>
+                        <a class="primary-btn" href="index.html#vitrine">Explorar loja</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pedidosCliente.map(pedido => {
+                const status = obterStatus(pedido.status);
+
+                return `
+                    <article class="order-card">
+                        <div class="order-top">
+                            <div>
+                                <div class="order-id">Pedido #${pedido.id.slice(0, 8).toUpperCase()}</div>
+                                <div class="order-date">${formatarData(pedido.criadoEm)}</div>
+                            </div>
+                            <span class="status-badge ${status.classe}">
+                                <i class="fas ${status.icon}"></i>
+                                ${status.texto}
+                            </span>
+                        </div>
+
+                        ${renderizarLinhaProgresso(pedido.status)}
+
+                        <div class="order-grid">
+                            <div class="order-box">
+                                <div class="order-box-title"><i class="fas fa-gem"></i> Itens</div>
+                                ${renderizarItensPedido(pedido)}
+                            </div>
+                            <div class="order-box">
+                                <div class="order-box-title"><i class="fas fa-location-dot"></i> Entrega</div>
+                                ${renderizarEndereco(pedido)}
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-total">Total ${formatarMoeda(pedido.total)}</div>
+                            ${renderizarAvaliacao(pedido)}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function escutarPedidos(user) {
+            if (unsubscribePedidos) {
+                unsubscribePedidos();
+            }
+
+            unsubscribePedidos = db.collection('clientes')
+                .doc(user.uid)
+                .collection('pedidos')
+                .onSnapshot(snapshot => {
+                    pedidosCliente = snapshot.docs
+                        .map(doc => ({ id: doc.id, ...doc.data() }))
+                        .sort((a, b) => {
+                            const dataA = a.criadoEm && a.criadoEm.toMillis ? a.criadoEm.toMillis() : 0;
+                            const dataB = b.criadoEm && b.criadoEm.toMillis ? b.criadoEm.toMillis() : 0;
+                            return dataB - dataA;
+                        });
+
+                    renderizarPedidos();
+                }, error => {
+                    console.error('Erro ao escutar pedidos do cliente.', error);
+                    document.getElementById('orders-list').innerHTML = `
+                        <div class="state-card">
+                            <i class="fas fa-triangle-exclamation"></i>
+                            <h2>Não foi possível carregar</h2>
+                            <p>Confira sua conexão e tente abrir seus pedidos novamente.</p>
+                        </div>
+                    `;
+                });
+        }
+
+        function avaliarPedido(pedidoId, nota) {
+            avaliacoesLocais[pedidoId] = nota;
+            renderizarPedidos();
+        }
+
+        function previsualizarAvaliacao(pedidoId, nota) {
+            document.querySelectorAll(`[data-rating-order="${pedidoId}"]`).forEach(botao => {
+                const valor = Number(botao.dataset.ratingValue || 0);
+                botao.classList.toggle('preview', valor <= nota);
+            });
+        }
+
+        function mostrarLoginNecessario() {
+            document.getElementById('access-state').innerHTML = `
+                <div class="state-card">
+                    <i class="fas fa-lock"></i>
+                    <h1>Acesse sua conta</h1>
+                    <p>Entre com seu login para acompanhar seus pedidos Sheron Maison.</p>
+                    <a class="primary-btn" href="index.html#login">Ir para login</a>
+                </div>
+            `;
+        }
+
+        async function sairPedidos() {
+            if (unsubscribePedidos) {
+                unsubscribePedidos();
+                unsubscribePedidos = null;
+            }
+
+            await auth.signOut();
+            window.location.href = 'index.html#login';
+        }
+
+        auth.onAuthStateChanged(function(user) {
+            if (!user) {
+                mostrarLoginNecessario();
+                return;
+            }
+
+            document.getElementById('access-state').classList.add('hidden');
+            document.getElementById('orders-app').classList.remove('hidden');
+            escutarPedidos(user);
+        });
+    </script>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>

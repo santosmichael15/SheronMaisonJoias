@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Sheron Maison</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #8C123D;
+            --cor-secundaria: #FDF1F4;
+            --cor-fundo: #FAFAFA;
+            --cor-texto: #2C2C2C;
+            --cor-texto-claro: #666666;
+            --cor-borda: #E2E8F0;
+            --transicao: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, rgba(253, 241, 244, 0.62), rgba(250, 250, 250, 0.70)),
+                url('./Imagens utilizadas/colar-pedra.avif') center/cover fixed;
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        button {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .profile-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 22px;
+            background: rgba(255, 255, 255, 0.96);
+            padding: 18px 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            color: var(--cor-primaria);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ghost-btn,
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            padding: 11px 15px;
+            text-transform: uppercase;
+            transition: var(--transicao);
+        }
+
+        .ghost-btn {
+            background: white;
+            color: var(--cor-primaria);
+            border: 1px solid rgba(140, 18, 61, 0.35);
+        }
+
+        .ghost-btn:hover {
+            background: var(--cor-secundaria);
+            border-color: var(--cor-primaria);
+        }
+
+        .primary-btn {
+            background: var(--cor-primaria);
+            color: white;
+            border: 1px solid var(--cor-primaria);
+        }
+
+        .primary-btn:hover {
+            background: #741032;
+            border-color: #741032;
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.22);
+        }
+
+        .profile-shell {
+            width: min(1120px, 90%);
+            margin: 0 auto;
+            padding: 48px 0 72px;
+        }
+
+        .profile-hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.7fr);
+            gap: 24px;
+            align-items: stretch;
+            margin-bottom: 28px;
+        }
+
+        .hero-panel,
+        .summary-panel,
+        .profile-card {
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(140, 18, 61, 0.10);
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(44, 44, 44, 0.10);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-panel {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            overflow: hidden;
+            min-height: 230px;
+            background:
+                linear-gradient(120deg, rgba(44,44,44,0.72), rgba(140,18,61,0.58)),
+                url('https://images.unsplash.com/photo-1607343381936-d8b80aad41a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-position: center;
+            background-size: cover;
+            padding: 34px;
+        }
+
+        .avatar {
+            display: grid;
+            place-items: center;
+            width: 76px;
+            height: 76px;
+            flex: 0 0 76px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255,255,255,0.28);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.55rem;
+            box-shadow: 0 12px 24px rgba(44, 44, 44, 0.22);
+        }
+
+        .hero-copy span {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .hero-copy h1 {
+            margin-top: 8px;
+            color: white;
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1;
+        }
+
+        .hero-copy p {
+            margin-top: 10px;
+            color: rgba(255,255,255,0.86);
+            max-width: 580px;
+        }
+
+        .summary-panel {
+            display: grid;
+            gap: 12px;
+            padding: 24px;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(253, 241, 244, 0.72);
+            border: 1px solid #f0e2e7;
+            border-radius: 6px;
+        }
+
+        .summary-item i {
+            display: grid;
+            place-items: center;
+            width: 36px;
+            height: 36px;
+            background: white;
+            color: var(--cor-primaria);
+            border-radius: 50%;
+        }
+
+        .summary-item strong {
+            display: block;
+            color: var(--cor-texto);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-item span {
+            color: var(--cor-texto-claro);
+            font-size: 0.9rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .profile-card {
+            padding: 26px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 22px;
+        }
+
+        .card-title h2 {
+            color: var(--cor-texto);
+            font-size: 1.55rem;
+        }
+
+        .card-title i {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            background: var(--cor-secundaria);
+            color: var(--cor-primaria);
+            border-radius: 50%;
+        }
+
+        .card-title {
+            position: relative;
+            padding-bottom: 14px;
+        }
+
+        .card-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 46px;
+            height: 2px;
+            background: var(--cor-primaria);
+        }
+
+        .detail-list {
+            display: grid;
+            gap: 14px;
+        }
+
+        .detail-item {
+            display: grid;
+            gap: 4px;
+            padding-bottom: 13px;
+            border-bottom: 1px solid #f0e7ea;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-item span {
+            color: var(--cor-texto-claro);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .detail-item strong {
+            color: var(--cor-texto);
+            font-size: 1rem;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-address {
+            display: grid;
+            place-items: center;
+            gap: 12px;
+            min-height: 210px;
+            padding: 26px;
+            background: rgba(250, 250, 250, 0.70);
+            border: 1px dashed rgba(140, 18, 61, 0.28);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .empty-address i {
+            color: var(--cor-primaria);
+            font-size: 2rem;
+        }
+
+        .empty-address h3 {
+            color: var(--cor-texto);
+            font-size: 1.35rem;
+        }
+
+        .empty-address p {
+            color: var(--cor-texto-claro);
+            max-width: 360px;
+        }
+
+        .profile-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .profile-form {
+            display: none;
+            gap: 16px;
+        }
+
+        .profile-form.active {
+            display: grid;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 7px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            color: var(--cor-texto);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(140, 18, 61, 0.18);
+            border-radius: 4px;
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            padding: 12px 13px;
+            outline: none;
+            transition: var(--transicao);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(140, 18, 61, 0.10);
+        }
+
+        .form-group input[readonly] {
+            color: var(--cor-texto-claro);
+            background: rgba(255, 255, 255, 0.48);
+            cursor: not-allowed;
+        }
+
+        .field-feedback {
+            min-height: 18px;
+            color: #b42318;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .profile-feedback {
+            min-height: 20px;
+            margin-top: 18px;
+            color: var(--cor-primaria);
+            font-size: 0.86rem;
+            font-weight: 600;
+        }
+
+        .access-state {
+            display: grid;
+            place-items: center;
+            min-height: calc(100vh - 88px);
+            padding: 5%;
+        }
+
+        .access-card {
+            width: min(440px, 100%);
+            background: white;
+            border: 1px solid rgba(140, 18, 61, 0.10);
+            border-radius: 8px;
+            box-shadow: 0 18px 40px rgba(44, 44, 44, 0.10);
+            padding: 34px;
+            text-align: center;
+        }
+
+        .access-card i {
+            color: var(--cor-primaria);
+            font-size: 2.1rem;
+            margin-bottom: 14px;
+        }
+
+        .access-card h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .access-card p {
+            color: var(--cor-texto-claro);
+            margin-bottom: 22px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 860px) {
+            .profile-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .header-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+
+            .profile-hero,
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .profile-shell {
+                width: 92%;
+                padding-top: 32px;
+            }
+
+            .logo {
+                font-size: 25px;
+            }
+
+            .ghost-btn,
+            .primary-btn {
+                width: 100%;
+            }
+
+            .profile-card,
+            .hero-panel,
+            .summary-panel {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="profile-header">
+        <a class="logo" href="index.html">Sheron Maison</a>
+        <div class="header-actions">
+            <a class="ghost-btn" href="index.html">
+                <i class="fas fa-store"></i>
+                Loja
+            </a>
+            <button class="ghost-btn" type="button" onclick="sairPerfil()">
+                <i class="fas fa-right-from-bracket"></i>
+                Sair
+            </button>
+        </div>
+    </header>
+
+    <section class="access-state" id="access-state">
+        <div class="access-card">
+            <i class="fas fa-gem"></i>
+            <h1>Carregando perfil</h1>
+            <p>Aguarde enquanto buscamos seus dados com segurança.</p>
+        </div>
+    </section>
+
+    <main class="profile-shell hidden" id="profile-app">
+        <section class="profile-hero">
+            <div class="hero-panel">
+                <div class="avatar" id="profile-avatar">SM</div>
+                <div class="hero-copy">
+                    <span><i class="fas fa-user-check"></i> Área do cliente</span>
+                    <h1 id="profile-title">Meu Perfil</h1>
+                    <p>Confira seus dados pessoais e mantenha suas informações prontas para futuras compras.</p>
+                </div>
+            </div>
+
+            <aside class="summary-panel">
+                <div class="summary-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <strong>E-mail</strong>
+                        <span id="summary-email">-</span>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-location-dot"></i>
+                    <div>
+                        <strong>Entrega</strong>
+                        <span id="summary-address">Endereço pendente</span>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <section class="profile-grid">
+            <article class="profile-card">
+                <div class="card-title">
+                    <h2>Dados pessoais</h2>
+                    <i class="fas fa-id-card"></i>
+                </div>
+
+                <div class="detail-list" id="personal-view">
+                    <div class="detail-item">
+                        <span>Nome completo</span>
+                        <strong id="profile-name">-</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>E-mail</span>
+                        <strong id="profile-email">-</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Telefone</span>
+                        <strong id="profile-phone">-</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span>Data de nascimento</span>
+                        <strong id="profile-birthday">-</strong>
+                    </div>
+                </div>
+
+                <form class="profile-form" id="personal-form" onsubmit="salvarDadosPessoais(event)">
+                    <div class="form-grid">
+                        <div class="form-group full">
+                            <label for="edit-name">Nome completo</label>
+                            <input type="text" id="edit-name" required>
+                            <span class="field-feedback" id="edit-name-feedback"></span>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="edit-email">E-mail</label>
+                            <input type="email" id="edit-email" readonly>
+                            <span class="field-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-phone">Telefone</label>
+                            <input type="tel" id="edit-phone" placeholder="(11) 99999-9999" required>
+                            <span class="field-feedback" id="edit-phone-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edit-birthday">Data de nascimento</label>
+                            <input type="date" id="edit-birthday" required>
+                            <span class="field-feedback" id="edit-birthday-feedback"></span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="primary-btn" type="submit">
+                            <i class="fas fa-floppy-disk"></i>
+                            Salvar dados
+                        </button>
+                        <button class="ghost-btn" type="button" onclick="fecharEdicaoDados()">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="profile-actions" id="personal-view-actions">
+                    <button class="primary-btn" type="button" onclick="abrirEdicaoDados()">
+                        <i class="fas fa-pen"></i>
+                        Editar dados
+                    </button>
+                </div>
+            </article>
+
+            <article class="profile-card">
+                <div class="card-title">
+                    <h2>Endereço principal</h2>
+                    <i class="fas fa-map-location-dot"></i>
+                </div>
+
+                <div id="address-content" class="empty-address">
+                    <i class="fas fa-location-dot"></i>
+                    <h3>Nenhum endereço cadastrado</h3>
+                    <p>Cadastre o endereço usado para envio dos pedidos.</p>
+                </div>
+
+                <form class="profile-form" id="address-form" onsubmit="salvarEndereco(event)">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="address-cep">CEP</label>
+                            <input type="text" id="address-cep" placeholder="00000-000" required>
+                            <span class="field-feedback" id="address-cep-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-state">Estado</label>
+                            <select id="address-state" required>
+                                <option value="">UF</option>
+                                <option value="AC">AC</option>
+                                <option value="AL">AL</option>
+                                <option value="AP">AP</option>
+                                <option value="AM">AM</option>
+                                <option value="BA">BA</option>
+                                <option value="CE">CE</option>
+                                <option value="DF">DF</option>
+                                <option value="ES">ES</option>
+                                <option value="GO">GO</option>
+                                <option value="MA">MA</option>
+                                <option value="MT">MT</option>
+                                <option value="MS">MS</option>
+                                <option value="MG">MG</option>
+                                <option value="PA">PA</option>
+                                <option value="PB">PB</option>
+                                <option value="PR">PR</option>
+                                <option value="PE">PE</option>
+                                <option value="PI">PI</option>
+                                <option value="RJ">RJ</option>
+                                <option value="RN">RN</option>
+                                <option value="RS">RS</option>
+                                <option value="RO">RO</option>
+                                <option value="RR">RR</option>
+                                <option value="SC">SC</option>
+                                <option value="SP">SP</option>
+                                <option value="SE">SE</option>
+                                <option value="TO">TO</option>
+                            </select>
+                            <span class="field-feedback" id="address-state-feedback"></span>
+                        </div>
+
+                        <div class="form-group full">
+                            <label for="address-street">Rua</label>
+                            <input type="text" id="address-street" required>
+                            <span class="field-feedback" id="address-street-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-number">Número</label>
+                            <input type="text" id="address-number" required>
+                            <span class="field-feedback" id="address-number-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-complement">Complemento</label>
+                            <input type="text" id="address-complement" placeholder="Opcional">
+                            <span class="field-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-neighborhood">Bairro</label>
+                            <input type="text" id="address-neighborhood" required>
+                            <span class="field-feedback" id="address-neighborhood-feedback"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-city">Cidade</label>
+                            <input type="text" id="address-city" required>
+                            <span class="field-feedback" id="address-city-feedback"></span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="primary-btn" type="submit">
+                            <i class="fas fa-floppy-disk"></i>
+                            Salvar endereço
+                        </button>
+                        <button class="ghost-btn" type="button" onclick="fecharEndereco()">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+
+                <div class="profile-actions" id="address-view-actions">
+                    <button class="primary-btn" type="button" onclick="abrirEndereco()">
+                        <i class="fas fa-plus"></i>
+                        <span id="address-action-label">Cadastrar endereço</span>
+                    </button>
+                </div>
+            </article>
+        </section>
+
+        <p class="profile-feedback" id="profile-feedback"></p>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        let usuarioAtual = null;
+        let dadosClienteAtual = {};
+
+        function setFeedback(id, message) {
+            const element = document.getElementById(id);
+            if (element) element.innerText = message;
+        }
+
+        function limparFeedbacks() {
+            document.querySelectorAll('.field-feedback').forEach(item => {
+                item.innerText = '';
+            });
+            document.getElementById('profile-feedback').innerText = '';
+        }
+
+        function obterPrimeiroNome(nomeCompleto, email) {
+            if (nomeCompleto && nomeCompleto.trim()) {
+                return nomeCompleto.trim().split(' ')[0];
+            }
+
+            return email ? email.split('@')[0] : 'Cliente';
+        }
+
+        function obterIniciais(nomeCompleto, email) {
+            const base = nomeCompleto && nomeCompleto.trim() ? nomeCompleto.trim() : (email || 'Sheron Maison');
+            return base
+                .split(/\s+/)
+                .slice(0, 2)
+                .map(parte => parte.charAt(0).toUpperCase())
+                .join('');
+        }
+
+        function formatarDataNascimento(valor) {
+            if (!valor) return 'Não informado';
+
+            const partes = valor.split('-');
+            if (partes.length !== 3) return valor;
+
+            return `${partes[2]}/${partes[1]}/${partes[0]}`;
+        }
+
+        function validarMaioridade(valor) {
+            if (!valor) {
+                return { valido: false, mensagem: 'Informe sua data de nascimento.' };
+            }
+
+            const nascimento = new Date(`${valor}T00:00:00`);
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            if (Number.isNaN(nascimento.getTime())) {
+                return { valido: false, mensagem: 'Informe uma data válida.' };
+            }
+
+            if (nascimento > hoje) {
+                return { valido: false, mensagem: 'A data não pode ser futura.' };
+            }
+
+            let idade = hoje.getFullYear() - nascimento.getFullYear();
+            const mesAtual = hoje.getMonth();
+            const diaAtual = hoje.getDate();
+            const mesNascimento = nascimento.getMonth();
+            const diaNascimento = nascimento.getDate();
+
+            if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
+                idade--;
+            }
+
+            if (idade < 18) {
+                return { valido: false, mensagem: 'É necessário ter 18 anos ou mais.' };
+            }
+
+            return { valido: true, mensagem: '' };
+        }
+
+        function formatarCep(valor) {
+            const numeros = valor.replace(/\D/g, '').slice(0, 8);
+
+            if (numeros.length > 5) {
+                return `${numeros.slice(0, 5)}-${numeros.slice(5)}`;
+            }
+
+            return numeros;
+        }
+
+        function escaparHtml(valor) {
+            return String(valor || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function renderizarEndereco(endereco) {
+            const addressContent = document.getElementById('address-content');
+            const summaryAddress = document.getElementById('summary-address');
+
+            if (!endereco || !endereco.cep) {
+                summaryAddress.innerText = 'Endereço pendente';
+                addressContent.className = 'empty-address';
+                addressContent.innerHTML = `
+                    <i class="fas fa-location-dot"></i>
+                    <h3>Nenhum endereço cadastrado</h3>
+                    <p>Cadastre o endereço usado para envio dos pedidos.</p>
+                `;
+                document.getElementById('address-action-label').innerText = 'Cadastrar endereço';
+                return;
+            }
+
+            summaryAddress.innerText = `${endereco.cidade || 'Cidade'}, ${endereco.estado || 'UF'}`;
+            addressContent.className = 'detail-list';
+            document.getElementById('address-action-label').innerText = 'Editar endereço';
+            addressContent.innerHTML = `
+                <div class="detail-item">
+                    <span>CEP</span>
+                    <strong>${escaparHtml(endereco.cep || '-')}</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Endereço</span>
+                    <strong>${escaparHtml(endereco.rua || '-')} ${escaparHtml(endereco.numero ? `, ${endereco.numero}` : ', s/n')}</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Bairro e cidade</span>
+                    <strong>${escaparHtml(endereco.bairro || '-')} - ${escaparHtml(endereco.cidade || '-')} / ${escaparHtml(endereco.estado || '-')}</strong>
+                </div>
+                <div class="detail-item">
+                    <span>Complemento</span>
+                    <strong>${escaparHtml(endereco.complemento || 'Não informado')}</strong>
+                </div>
+            `;
+        }
+
+        function mostrarLoginNecessario() {
+            document.getElementById('access-state').innerHTML = `
+                <div class="access-card">
+                    <i class="fas fa-lock"></i>
+                    <h1>Acesse sua conta</h1>
+                    <p>Entre com seu login para visualizar o perfil Sheron Maison.</p>
+                    <a class="primary-btn" href="index.html#login">Ir para login</a>
+                </div>
+            `;
+        }
+
+        function preencherPerfil(user, dadosCliente) {
+            const nome = dadosCliente.nomeCompleto || user.displayName || 'Cliente Sheron Maison';
+            const email = dadosCliente.email || user.email || 'Não informado';
+            const telefone = dadosCliente.telefone || 'Não informado';
+            const nascimento = dadosCliente.dataNascimento || '';
+
+            document.getElementById('profile-avatar').innerText = obterIniciais(nome, email);
+            document.getElementById('profile-title').innerText = `Olá, ${obterPrimeiroNome(nome, email)}`;
+            document.getElementById('summary-email').innerText = email;
+            document.getElementById('profile-name').innerText = nome;
+            document.getElementById('profile-email').innerText = email;
+            document.getElementById('profile-phone').innerText = telefone;
+            document.getElementById('profile-birthday').innerText = formatarDataNascimento(nascimento);
+
+            renderizarEndereco(dadosCliente.endereco);
+            preencherFormularios(nome, email, telefone, nascimento, dadosCliente.endereco || {});
+        }
+
+        function preencherFormularios(nome, email, telefone, nascimento, endereco) {
+            document.getElementById('edit-name').value = nome || '';
+            document.getElementById('edit-email').value = email || '';
+            document.getElementById('edit-phone').value = telefone === 'Não informado' ? '' : telefone;
+            document.getElementById('edit-birthday').value = nascimento || '';
+            document.getElementById('edit-birthday').max = new Date().toISOString().split('T')[0];
+
+            document.getElementById('address-cep').value = endereco.cep || '';
+            document.getElementById('address-state').value = endereco.estado || '';
+            document.getElementById('address-street').value = endereco.rua || '';
+            document.getElementById('address-number').value = endereco.numero || '';
+            document.getElementById('address-complement').value = endereco.complemento || '';
+            document.getElementById('address-neighborhood').value = endereco.bairro || '';
+            document.getElementById('address-city').value = endereco.cidade || '';
+        }
+
+        function abrirEdicaoDados() {
+            limparFeedbacks();
+            document.getElementById('personal-view').classList.add('hidden');
+            document.getElementById('personal-view-actions').classList.add('hidden');
+            document.getElementById('personal-form').classList.add('active');
+        }
+
+        function fecharEdicaoDados() {
+            limparFeedbacks();
+            document.getElementById('personal-form').classList.remove('active');
+            document.getElementById('personal-view').classList.remove('hidden');
+            document.getElementById('personal-view-actions').classList.remove('hidden');
+            preencherPerfil(usuarioAtual, dadosClienteAtual);
+        }
+
+        function abrirEndereco() {
+            limparFeedbacks();
+            document.getElementById('address-content').classList.add('hidden');
+            document.getElementById('address-view-actions').classList.add('hidden');
+            document.getElementById('address-form').classList.add('active');
+        }
+
+        function fecharEndereco() {
+            limparFeedbacks();
+            document.getElementById('address-form').classList.remove('active');
+            document.getElementById('address-content').classList.remove('hidden');
+            document.getElementById('address-view-actions').classList.remove('hidden');
+            preencherPerfil(usuarioAtual, dadosClienteAtual);
+        }
+
+        function validarDadosPessoais() {
+            let valido = true;
+            const nome = document.getElementById('edit-name').value.trim();
+            const telefone = document.getElementById('edit-phone').value.trim();
+            const nascimento = document.getElementById('edit-birthday').value;
+            const nascimentoStatus = validarMaioridade(nascimento);
+
+            limparFeedbacks();
+
+            if (nome.split(' ').filter(Boolean).length < 2) {
+                setFeedback('edit-name-feedback', 'Informe nome e sobrenome.');
+                valido = false;
+            }
+
+            if (telefone.replace(/\D/g, '').length < 10) {
+                setFeedback('edit-phone-feedback', 'Informe um telefone válido com DDD.');
+                valido = false;
+            }
+
+            if (!nascimentoStatus.valido) {
+                setFeedback('edit-birthday-feedback', nascimentoStatus.mensagem);
+                valido = false;
+            }
+
+            return valido;
+        }
+
+        function validarEndereco() {
+            let valido = true;
+            const campos = [
+                ['address-cep', 'address-cep-feedback', 'Informe um CEP válido com 8 números.', valor => valor.replace(/\D/g, '').length === 8],
+                ['address-state', 'address-state-feedback', 'Selecione o estado.', valor => Boolean(valor)],
+                ['address-street', 'address-street-feedback', 'Informe a rua.', valor => valor.trim().length >= 3],
+                ['address-number', 'address-number-feedback', 'Informe o número.', valor => valor.trim().length > 0],
+                ['address-neighborhood', 'address-neighborhood-feedback', 'Informe o bairro.', valor => valor.trim().length >= 2],
+                ['address-city', 'address-city-feedback', 'Informe a cidade.', valor => valor.trim().length >= 2]
+            ];
+
+            limparFeedbacks();
+
+            campos.forEach(([inputId, feedbackId, mensagem, teste]) => {
+                const valor = document.getElementById(inputId).value;
+
+                if (!teste(valor)) {
+                    setFeedback(feedbackId, mensagem);
+                    valido = false;
+                }
+            });
+
+            return valido;
+        }
+
+        async function salvarDadosPessoais(event) {
+            event.preventDefault();
+
+            if (!validarDadosPessoais() || !usuarioAtual) return;
+
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const nome = document.getElementById('edit-name').value.trim();
+            const telefone = document.getElementById('edit-phone').value.trim();
+            const nascimento = document.getElementById('edit-birthday').value;
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+
+            try {
+                await usuarioAtual.updateProfile({ displayName: nome });
+
+                await db.collection('clientes').doc(usuarioAtual.uid).set({
+                    nomeCompleto: nome,
+                    email: usuarioAtual.email,
+                    telefone: telefone,
+                    dataNascimento: nascimento,
+                    maiorIdade: true,
+                    atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                dadosClienteAtual = {
+                    ...dadosClienteAtual,
+                    nomeCompleto: nome,
+                    email: usuarioAtual.email,
+                    telefone: telefone,
+                    dataNascimento: nascimento,
+                    maiorIdade: true
+                };
+
+                preencherPerfil(usuarioAtual, dadosClienteAtual);
+                fecharEdicaoDados();
+                document.getElementById('profile-feedback').innerText = 'Dados pessoais atualizados com sucesso.';
+            } catch (error) {
+                document.getElementById('profile-feedback').innerText = 'Não foi possível salvar seus dados agora.';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-floppy-disk"></i> Salvar dados';
+            }
+        }
+
+        async function salvarEndereco(event) {
+            event.preventDefault();
+
+            if (!validarEndereco() || !usuarioAtual) return;
+
+            const submitButton = event.target.querySelector('button[type="submit"]');
+            const endereco = {
+                cep: formatarCep(document.getElementById('address-cep').value),
+                rua: document.getElementById('address-street').value.trim(),
+                numero: document.getElementById('address-number').value.trim(),
+                complemento: document.getElementById('address-complement').value.trim(),
+                bairro: document.getElementById('address-neighborhood').value.trim(),
+                cidade: document.getElementById('address-city').value.trim(),
+                estado: document.getElementById('address-state').value
+            };
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+
+            try {
+                await db.collection('clientes').doc(usuarioAtual.uid).set({
+                    endereco: endereco,
+                    atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                dadosClienteAtual = {
+                    ...dadosClienteAtual,
+                    endereco: endereco
+                };
+
+                preencherPerfil(usuarioAtual, dadosClienteAtual);
+                fecharEndereco();
+                document.getElementById('profile-feedback').innerText = 'Endereço salvo com sucesso.';
+            } catch (error) {
+                document.getElementById('profile-feedback').innerText = 'Não foi possível salvar o endereço agora.';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-floppy-disk"></i> Salvar endereço';
+            }
+        }
+
+        async function sairPerfil() {
+            await auth.signOut();
+            window.location.href = 'index.html#login';
+        }
+
+        auth.onAuthStateChanged(async function(user) {
+            if (!user) {
+                mostrarLoginNecessario();
+                return;
+            }
+
+            try {
+                const clienteDoc = await db.collection('clientes').doc(user.uid).get();
+                const dadosCliente = clienteDoc.exists ? clienteDoc.data() : {};
+
+                usuarioAtual = user;
+                dadosClienteAtual = dadosCliente;
+                preencherPerfil(user, dadosCliente);
+                document.getElementById('access-state').classList.add('hidden');
+                document.getElementById('profile-app').classList.remove('hidden');
+            } catch (error) {
+                document.getElementById('access-state').innerHTML = `
+                    <div class="access-card">
+                        <i class="fas fa-triangle-exclamation"></i>
+                        <h1>Não foi possível carregar</h1>
+                        <p>Confira sua conexão e tente abrir o perfil novamente.</p>
+                        <a class="ghost-btn" href="index.html">Voltar para loja</a>
+                    </div>
+                `;
+            }
+        });
+
+        document.getElementById('address-cep').addEventListener('input', function(event) {
+            event.target.value = formatarCep(event.target.value);
+        });
+    </script>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>

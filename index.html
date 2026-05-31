@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sheron Maison | Elegância e Estilo você encontra aqui</title>
+    
+    <!-- Ícones e Fontes Premium -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIÁVEIS E ESTILOS GERAIS --- */
+        :root {
+            --cor-primaria: #8C123D; 
+            --cor-secundaria: #FDF1F4;
+            --cor-fundo: #FAFAFA;
+            --cor-texto: #2C2C2C;
+            --cor-texto-claro: #666666;
+            --cor-borda: #E2E8F0;
+            --transicao: all 0.3s ease;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            scroll-behavior: smooth; 
+        }
+
+        body { 
+            background-color: var(--cor-fundo); 
+            color: var(--cor-texto); 
+            line-height: 1.6; 
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden; 
+        }
+
+        h1, h2, h3, h4, .logo { font-family: 'Playfair Display', serif; }
+        a { text-decoration: none; color: inherit; transition: var(--transicao); }
+
+        /* --- BOTÕES GERAIS --- */
+        .btn { 
+            background-color: var(--cor-primaria); 
+            color: white; 
+            padding: 14px 32px; 
+            border-radius: 4px; 
+            font-weight: 500; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer; 
+            display: inline-block;
+            transition: var(--transicao); 
+        }
+        .btn:hover { 
+            background-color: #8C123D; 
+            box-shadow: 0 4px 12px rgba(185, 28, 82, 0.3); 
+        }
+
+        /* --- CABEÇALHO DA LOJA --- */
+        .loja-header { 
+            background-color: white; 
+            padding: 20px 5%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000; 
+        }
+        .logo { font-size: 28px; font-weight: 700; color: var(--cor-primaria); letter-spacing: -0.5px; }
+
+        nav ul { list-style: none; display: flex; gap: 30px; align-items: center; }
+        nav ul li a { font-size: 0.95rem; font-weight: 500; }
+        nav ul li a:hover { color: var(--cor-primaria); }
+
+        .auth-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .login-area {
+            position: relative;
+        }
+
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: 1px solid rgba(140, 18, 61, 0.35);
+            border-radius: 4px;
+            color: var(--cor-primaria);
+            padding: 9px 14px;
+            font-size: 0.82rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-left: 0px;
+            cursor: pointer;
+            transition: var(--transicao);
+        }
+
+        .login-btn:hover {
+            background: var(--cor-secundaria);
+            border-color: var(--cor-primaria);
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.12);
+        }
+
+        .signup-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--cor-primaria);
+            border: 1px solid rgba(140, 18, 61, 0.35);
+            border-radius: 4px;
+            padding: 9px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            transition: var(--transicao);
+        }
+
+        .signup-btn:hover {
+            background: var(--cor-secundaria);
+            border-color: var(--cor-primaria);
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.12);
+        }
+
+        .user-greeting {
+            position: relative;
+            display: none;
+            align-items: center;
+        }
+
+        .user-greeting.active {
+            display: flex;
+        }
+
+        .account-trigger {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--cor-primaria);
+            color: white;
+            border: 1px solid var(--cor-primaria);
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 9px 12px 9px 14px;
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.16);
+            transition: var(--transicao);
+        }
+
+        .account-trigger:hover,
+        .account-trigger[aria-expanded="true"] {
+            background: #741032;
+            border-color: #741032;
+        }
+
+        .account-trigger i:first-child {
+            color: var(--cor-secundaria);
+        }
+
+        .account-trigger i:last-child {
+            font-size: 0.72rem;
+            transition: var(--transicao);
+        }
+
+        .account-trigger[aria-expanded="true"] i:last-child {
+            transform: rotate(180deg);
+        }
+
+        .welcome-text {
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            white-space: nowrap;
+        }
+
+        .account-menu {
+            position: absolute;
+            top: calc(100% + 12px);
+            right: 0;
+            width: 210px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 18px 35px rgba(44, 44, 44, 0.14);
+            padding: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: var(--transicao);
+            z-index: 1200;
+        }
+
+        .account-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .account-menu::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            right: 22px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-left: 1px solid #eee;
+            border-top: 1px solid #eee;
+            transform: rotate(45deg);
+        }
+
+        .account-menu a,
+        .account-menu button {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            color: var(--cor-texto);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 11px 12px;
+            text-align: left;
+            transition: var(--transicao);
+        }
+
+        .account-menu a:hover,
+        .account-menu button:hover {
+            background: var(--cor-secundaria);
+            color: var(--cor-primaria);
+        }
+
+        .account-menu i {
+            color: var(--cor-primaria);
+            width: 16px;
+            text-align: center;
+        }
+
+        .admin-link {
+            display: none;
+            align-items: center;
+            gap: 6px;
+            background: var(--cor-texto);
+            color: white;
+            border: 1px solid var(--cor-texto);
+            border-radius: 4px;
+            padding: 9px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            transition: var(--transicao);
+        }
+
+        .admin-link.active {
+            display: flex;
+        }
+
+        .admin-link:hover {
+            background: var(--cor-primaria);
+            border-color: var(--cor-primaria);
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.16);
+        }
+
+        .login-popover,
+        .recovery-popover {
+            position: absolute;
+            top: calc(100% + 14px);
+            right: 0;
+            width: 290px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            box-shadow: 0 18px 35px rgba(44, 44, 44, 0.14);
+            padding: 22px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: var(--transicao);
+            z-index: 1200;
+        }
+
+        .recovery-popover {
+            width: 350px;
+        }
+
+        .login-popover.open,
+        .recovery-popover.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .login-popover::before,
+        .recovery-popover::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            right: 28px;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-left: 1px solid #eee;
+            border-top: 1px solid #eee;
+            transform: rotate(45deg);
+        }
+
+        .login-popover h3,
+        .recovery-popover h3 {
+            color: var(--cor-texto);
+            font-size: 1.35rem;
+            margin-bottom: 6px;
+        }
+
+        .login-popover p,
+        .recovery-popover p {
+            color: var(--cor-texto-claro);
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+        }
+
+        .login-form,
+        .recovery-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .login-form label,
+        .recovery-form label {
+            color: var(--cor-texto);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .login-form input,
+        .recovery-form input {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transicao);
+        }
+
+        .login-form input:focus,
+        .recovery-form input:focus {
+            border-color: var(--cor-primaria);
+            background: white;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(140, 18, 61, 0.12);
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-input-wrapper input {
+            padding-right: 44px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--cor-texto-claro);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: var(--transicao);
+        }
+
+        .toggle-password:hover {
+            color: var(--cor-primaria);
+        }
+
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.78rem;
+            color: var(--cor-texto-claro);
+            white-space: nowrap;
+        }
+
+        .login-options a {
+            color: var(--cor-primaria);
+            font-weight: 500;
+        }
+
+        .login-feedback,
+        .recovery-feedback {
+            min-height: 18px;
+            color: #b42318;
+            font-size: 0.78rem;
+        }
+
+        .login-feedback.success,
+        .recovery-feedback.success {
+            color: var(--cor-primaria);
+        }
+
+        .login-submit,
+        .recovery-submit {
+            width: 100%;
+            margin-top: 4px;
+            padding: 12px 18px;
+        }
+
+        .back-to-login {
+            background: none;
+            border: none;
+            color: var(--cor-primaria);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .header-icons { display: flex; gap: 25px; align-items: center; }
+        .cart-icon-container { position: relative; cursor: pointer; font-size: 22px; color: var(--cor-texto); transition: var(--transicao); }
+        .cart-icon-container:hover { color: var(--cor-primaria); }
+        .cart-badge { 
+            position: absolute; top: -5px; right: -12px; 
+            background: var(--cor-primaria); color: white; 
+            border-radius: 50%; padding: 2px 7px; 
+            font-size: 11px; font-family: 'Montserrat', sans-serif; font-weight: 600; 
+        }
+        .menu-toggle { display: none; font-size: 24px; cursor: pointer; color: var(--cor-texto); }
+
+        /* --- CARROSSEL --- */
+        .carousel-container { position: relative; width: 100%; height: 85vh; overflow: hidden; }
+        .slide { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            opacity: 0; transition: opacity 0.8s ease-in-out; 
+            background-size: cover; background-position: center; 
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        .slide.active { opacity: 1; z-index: 1; }
+        .slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); }
+
+        .slide-content { position: relative; z-index: 2; color: white; max-width: 800px; padding: 0 20px; }
+        .slide-content h1 { font-size: 4rem; margin-bottom: 15px; font-weight: 600; line-height: 1.1; }
+        .slide-content p { font-size: 1.2rem; margin-bottom: 35px; font-weight: 300; letter-spacing: 1px; }
+
+        .prev, .next { 
+            cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; 
+            margin-top: -22px; color: white; font-weight: bold; font-size: 24px; 
+            transition: 0.3s; border-radius: 0 3px 3px 0; user-select: none; z-index: 10; border: none; background: rgba(0,0,0,0.2);
+        }
+        .next { right: 0; border-radius: 3px 0 0 3px; }
+        .prev:hover, .next:hover { background-color: rgba(185, 28, 82, 0.8); }
+
+        /* --- VITRINE --- */
+        .produtos { padding: 80px 5%; text-align: center; }
+        .secao-titulo { font-size: 2.5rem; color: var(--cor-texto); margin-bottom: 10px; }
+        .secao-subtitulo { color: var(--cor-texto-claro); font-size: 1.1rem; margin-bottom: 50px; font-weight: 300; }
+
+        .grid-produtos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+        .produto-card { background: white; transition: var(--transicao); border-radius: 4px; overflow: hidden; }
+        .produto-card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+        .img-container { overflow: hidden; position: relative; }
+        .produto-img { width: 100%; height: 380px; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .produto-card:hover .produto-img { transform: scale(1.05); }
+
+        .produto-info { padding: 25px 15px; text-align: left; border: 1px solid #eee; border-top: none; }
+        .produto-info h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--cor-texto); font-weight: 600; }
+        .produto-info .preco { color: var(--cor-primaria); font-weight: 600; font-size: 1.2rem; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; }
+
+        .btn-add-cart { width: 100%; background: #8C123D; color: white; border: 1px solid var(--cor-texto); }
+        .btn-add-cart:hover { background: var(--cor-texto); color: white; border-color: var(--cor-texto); }
+
+        /* --- CARRINHO LATERAL --- */
+        .cart-sidebar { position: fixed; top: 0; right: -400px; width: 380px; max-width: 100%; height: 100vh; background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.1); z-index: 2000; transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .cart-header h3 { font-size: 1.5rem; }
+        .close-cart { cursor: pointer; font-size: 22px; color: var(--cor-texto-claro); transition: var(--transicao); }
+        .close-cart:hover { color: var(--cor-primaria); transform: rotate(90deg); }
+
+        .cart-items { flex: 1; padding: 25px; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f5f5f5; }
+        .cart-item-title { font-weight: 500; font-size: 0.95rem; margin-bottom: 5px; }
+        .cart-item-price { color: var(--cor-texto-claro); font-size: 0.9rem; }
+        .cart-item-remove { color: #d32f2f; cursor: pointer; font-size: 0.85rem; text-decoration: underline; }
+
+        .cart-footer { padding: 25px; background: var(--cor-fundo); border-top: 1px solid #eee; }
+        .cart-total { font-size: 1.3rem; font-weight: 600; display: flex; justify-content: space-between; margin-bottom: 20px; font-family: 'Playfair Display', serif; }
+        .btn-checkout { width: 100%; text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px; }
+        .checkout-feedback { min-height: 18px; color: #b42318; font-size: 0.82rem; margin-top: 12px; text-align: center; }
+        .checkout-feedback a { color: var(--cor-primaria); font-weight: 600; text-decoration: underline; }
+
+        /* --- PAGAMENTO PIX --- */
+        .pix-sidebar { position: fixed; top: 0; right: -400px; width: 380px; max-width: 100%; height: 100vh; background: white; box-shadow: -5px 0 20px rgba(0,0,0,0.1); z-index: 2000; transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
+        .pix-sidebar.open { right: 0; }
+        .pix-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        .pix-header h3 { font-size: 1.5rem; }
+        .close-pix { cursor: pointer; font-size: 22px; color: var(--cor-texto-claro); transition: var(--transicao); }
+        .close-pix:hover { color: var(--cor-primaria); transform: rotate(90deg); }
+        .pix-content { flex: 1; padding: 25px; overflow-y: auto; }
+        .pix-intro { color: var(--cor-texto-claro); font-size: 0.92rem; margin-bottom: 18px; }
+        .pix-summary { background: var(--cor-secundaria); border-left: 4px solid var(--cor-primaria); border-radius: 4px; padding: 16px; margin-bottom: 20px; }
+        .pix-summary-row { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; color: var(--cor-texto-claro); font-size: 0.9rem; }
+        .pix-summary-row:last-child { margin-bottom: 0; color: var(--cor-texto); font-weight: 600; }
+        .pix-qrcode { display: flex; justify-content: center; align-items: center; min-height: 210px; margin: 18px 0; padding: 16px; border: 1px solid #eee; border-radius: 8px; background: var(--cor-fundo); }
+        .pix-copy { width: 100%; min-height: 92px; padding: 12px; border: 1px solid #ddd; border-radius: 4px; resize: vertical; background: white; color: var(--cor-texto); font-family: 'Montserrat', sans-serif; font-size: 0.78rem; line-height: 1.5; }
+        .pix-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+        .pix-secondary { width: 100%; border: 1px solid rgba(140, 18, 61, 0.35); border-radius: 4px; background: white; color: var(--cor-primaria); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px 18px; font-family: 'Montserrat', sans-serif; font-size: 0.86rem; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; transition: var(--transicao); }
+        .pix-secondary:hover { background: var(--cor-secundaria); border-color: var(--cor-primaria); }
+        .pix-confirm { background: #ecfdf5; border-color: rgba(4, 120, 87, 0.28); color: #047857; }
+        .pix-confirm:hover { background: #d1fae5; border-color: #047857; color: #047857; }
+        .pix-feedback { min-height: 18px; color: var(--cor-texto-claro); font-size: 0.82rem; margin-top: 12px; text-align: center; }
+        .pix-feedback.error { color: #b42318; }
+        .pix-footer { padding: 20px 25px; background: var(--cor-fundo); border-top: 1px solid #eee; color: var(--cor-texto-claro); font-size: 0.84rem; }
+
+        /* --- ATENDIMENTO LATERAL --- */
+        .support-sidebar { position: fixed; top: 0; left: -400px; width: 380px; max-width: 100%; height: 100vh; background: white; box-shadow: 5px 0 20px rgba(0,0,0,0.1); z-index: 2000; transition: left 0.4s cubic-bezier(0.77, 0, 0.175, 1); display: flex; flex-direction: column; }
+        .support-sidebar.open { left: 0; }
+        .support-header { padding: 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+        .support-title { display: flex; align-items: center; gap: 12px; }
+        .support-title i { width: 40px; height: 40px; border-radius: 50%; background: var(--cor-secundaria); color: var(--cor-primaria); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .support-header h3 { font-size: 1.45rem; line-height: 1.1; }
+        .close-support { cursor: pointer; font-size: 22px; color: var(--cor-texto-claro); transition: var(--transicao); }
+        .close-support:hover { color: var(--cor-primaria); transform: rotate(90deg); }
+        .support-content { flex: 1; padding: 25px; overflow-y: auto; }
+        .support-intro { color: var(--cor-texto-claro); margin-bottom: 22px; }
+        .support-highlight { background: var(--cor-secundaria); border-left: 4px solid var(--cor-primaria); border-radius: 4px; padding: 16px; margin-bottom: 22px; color: var(--cor-texto); }
+        .support-section { margin-bottom: 24px; }
+        .support-section h4 { color: var(--cor-texto); font-size: 1.1rem; margin-bottom: 10px; }
+        .support-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .support-list li { display: flex; align-items: flex-start; gap: 10px; color: var(--cor-texto-claro); font-size: 0.93rem; }
+        .support-list i { color: var(--cor-primaria); margin-top: 4px; }
+        .support-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
+        .support-mini-card { background: var(--cor-fundo); border: 1px solid #eee; border-radius: 6px; padding: 14px; }
+        .support-mini-card strong { display: block; color: var(--cor-texto); margin-bottom: 4px; }
+        .support-mini-card span { color: var(--cor-texto-claro); font-size: 0.84rem; }
+        .support-footer { padding: 20px 25px; background: var(--cor-fundo); border-top: 1px solid #eee; color: var(--cor-texto-claro); font-size: 0.88rem; }
+
+        /* Overlay Escuro */     
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 1500; opacity: 0; visibility: hidden; transition: var(--transicao); backdrop-filter: blur(2px); }
+        .overlay.active { opacity: 1; visibility: visible; }
+
+        /* --- CONTATO --- */
+        .contato-wrapper { padding: 80px 5%; background: white; display: flex; flex-wrap: wrap; gap: 60px; }
+        .contato-info { flex: 1; min-width: 300px; }
+        .contato-form { flex: 1.5; min-width: 300px; background: var(--cor-fundo); padding: 40px; border-radius: 8px; }
+
+        .info-item { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 25px; }
+        .info-item i { color: var(--cor-primaria); font-size: 24px; margin-top: 3px; }
+        .info-text strong { display: block; font-size: 1.1rem; color: var(--cor-texto); margin-bottom: 3px; font-weight: 600; }
+        .info-text span { color: var(--cor-texto-claro); }
+
+        .formulario { display: flex; flex-direction: column; gap: 20px; }
+        .form-row { display: flex; gap: 20px; }
+        .form-row input { flex: 1; }
+        .formulario input, .formulario textarea { padding: 15px; border: 1px solid #ddd; border-radius: 4px; width: 100%; font-family: 'Montserrat', sans-serif; background: white; transition: var(--transicao); }
+        .formulario input:focus, .formulario textarea:focus { border-color: var(--cor-primaria); outline: none; box-shadow: 0 0 0 3px rgba(129, 178, 154, 0.2); }
+        .formulario textarea { resize: vertical; min-height: 120px; }
+        .mapa { width: 100%; height: 320px; margin-top: 30px; border-radius: 8px; overflow: hidden; border: 1px solid #eee; box-shadow: 0 10px 20px rgba(0,0,0,0.05); background: var(--cor-fundo); }
+        .mapa iframe { width: 100%; height: 100%; display: block; border: 0; }
+
+        /* --- RODAPÉ --- */
+        footer { background: #1A1A1A; color: #E0E0E0; padding: 60px 5% 20px; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px; }
+        .footer-col h4 { color: white; font-size: 1.2rem; margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 40px; height: 2px; background: var(--cor-primaria); }
+        .footer-col p { color: #A0A0A0; margin-bottom: 15px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a:hover { color: var(--cor-primaria); padding-left: 5px; }
+        .footer-links button { background: none; border: none; color: inherit; cursor: pointer; font: inherit; text-align: left; transition: var(--transicao); }
+        .footer-links button:hover { color: var(--cor-primaria); padding-left: 5px; }
+
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a { background: #333; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; transition: var(--transicao); }
+        .social-icons a:hover { background: var(--cor-primaria); transform: translateY(-3px); }
+
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid #333; color: #888; font-size: 0.85rem; }
+
+        .email-float { 
+            position: fixed; bottom: 30px; right: 30px; 
+            background-color: var(--cor-primaria); color: white; 
+            border-radius: 50%; width: 60px; height: 60px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 24px; box-shadow: 0 4px 15px rgba(185, 28, 82, 0.4); 
+            z-index: 999; transition: var(--transicao); 
+        }
+        .email-float:hover { transform: translateY(-5px); background-color: #8C123D; }
+
+
+        .zap-float { 
+            position: fixed; bottom: 100px; right: 30px; 
+            background-color: var(--cor-primaria); color: white; 
+            border-radius: 50%; width: 60px; height: 60px; 
+            display: flex; justify-content: center; align-items: center; 
+            font-size: 24px; box-shadow: 0 4px 15px rgba(185, 28, 82, 0.4); 
+            z-index: 999; transition: var(--transicao); 
+        }
+        .zap-float:hover { transform: translateY(-5px); background-color: #8C123D; }
+
+        /* --- RESPONSIVIDADE GERAL --- */
+        @media (max-width: 1024px) {
+            .loja-header { flex-wrap: wrap; gap: 18px; }
+            nav { order: 3; width: 100%; }
+            nav ul { justify-content: center; gap: 22px; }
+            .auth-actions { margin-left: auto; }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav ul { position: absolute; top: 100%; left: 0; width: 100%; background: white; flex-direction: column; padding: 0; max-height: 0; overflow: hidden; box-shadow: 0 10px 10px rgba(0,0,0,0.05); }
+            nav ul.active { max-height: 400px; padding: 20px 0; }
+            nav ul li { width: 100%; text-align: center; margin-bottom: 15px; }
+            nav { order: initial; width: auto; }
+            .auth-actions { gap: 10px; }
+            .login-btn span { display: none; }
+            .login-btn { padding: 9px 11px; }
+            .signup-btn span { display: none; }
+            .signup-btn { padding: 9px 11px; }
+            .admin-link span { display: none; }
+            .admin-link { padding: 9px 11px; }
+            .welcome-text { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+            .account-trigger { padding: 9px 11px; }
+            .account-menu { right: -12px; }
+            .login-popover, .recovery-popover { right: -64px; width: min(350px, calc(100vw - 32px)); }
+            .login-popover::before, .recovery-popover::before { right: 90px; }
+            .support-sidebar { width: 92vw; left: -92vw; }
+            .support-grid { grid-template-columns: 1fr; }
+            .cart-sidebar { width: 92vw; right: -92vw; }
+            .pix-sidebar { width: 92vw; right: -92vw; }
+            .slide-content h1 { font-size: 2.5rem; }
+            .carousel-container { height: 72vh; min-height: 520px; }
+            .contato-wrapper { padding: 60px 5%; gap: 35px; }
+            .contato-form { padding: 28px 20px; }
+            .mapa { height: 260px; }
+            .form-row { flex-direction: column; gap: 20px; }
+        }
+
+        @media (max-width: 480px) {
+            .loja-header { padding: 16px 5%; }
+            .logo { font-size: 24px; }
+            .header-icons { gap: 16px; }
+            .login-popover, .recovery-popover { right: -108px; }
+            .login-popover::before, .recovery-popover::before { right: 132px; }
+            .slide-content h1 { font-size: 2.1rem; }
+            .slide-content p { font-size: 1rem; }
+            .produto-img { height: 320px; }
+            .email-float, .zap-float { right: 18px; width: 54px; height: 54px; }
+            .email-float { bottom: 22px; }
+            .zap-float { bottom: 88px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="secao-loja">
+        <div class="overlay" id="overlay" onclick="closeSidePanels()"></div>
+
+        <!-- Cabeçalho -->
+        <header class="loja-header">
+            <div class="logo">Sheron Maison</div>
+
+            <nav>
+                <ul id="menu-links">
+                    <li><a href="#inicio" onclick="toggleMenu()">Início</a></li>
+                    <li><a href="#vitrine" onclick="toggleMenu()">Coleções</a></li>
+                    <li><a href="#contato" onclick="toggleMenu()">Contato</a></li>
+                    <li><a href="#sobre" onclick="toggleMenu()">Sobre a Marca</a></li>
+                </ul>
+
+            </nav>
+
+            <!--login-->
+            <div class="auth-actions">
+                <div class="login-area" id="login-area">
+                    <button class="login-btn" type="button" onclick="toggleLogin(event)" aria-expanded="false" aria-controls="login-popover">
+                        <i class="fas fa-circle-user"></i>
+                        <span>Entrar</span>
+                    </button>
+
+                    <div class="login-popover" id="login-popover">
+                        <h3>Acesse sua conta</h3>
+                        <p>Entre para acompanhar seus pedidos e favoritos.</p>
+                        <form class="login-form" onsubmit="enviarLogin(event)">
+                            <label for="login-email">E-mail</label>
+                            <input type="email" id="login-email" name="email" placeholder="seuemail@exemplo.com" required>
+
+                            <label for="login-senha">Senha</label>
+                            <div class="password-input-wrapper">
+                                <input type="password" id="login-senha" name="senha" placeholder="Sua senha" required>
+                                <button class="toggle-password" type="button" onclick="togglePasswordVisibility('login-senha', this)" aria-label="Mostrar senha">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+
+                            <div class="login-options">
+                                <a href="#" onclick="abrirRecuperacaoSenha(event)">Esqueci a senha</a>
+                            </div>
+
+                            <span class="login-feedback" id="login-feedback"></span>
+
+                            <button type="submit" class="btn login-submit">Entrar</button>
+                        </form>
+                    </div>
+
+                    <div class="recovery-popover" id="recovery-popover">
+                        <h3>Recuperar senha</h3>
+                        <p>Informe seu e-mail cadastrado para receber o link de redefinição.</p>
+                        <form class="recovery-form" onsubmit="enviarRecuperacaoSenha(event)">
+                            <label for="recovery-email">E-mail</label>
+                            <input type="email" id="recovery-email" name="recovery-email" placeholder="seuemail@exemplo.com" required>
+
+                            <span class="recovery-feedback" id="recovery-feedback"></span>
+
+                            <button type="submit" class="btn recovery-submit">Enviar link</button>
+                            <button type="button" class="back-to-login" onclick="voltarParaLogin()">Voltar ao login</button>
+                        </form>
+                    </div>
+                </div>
+
+                <a href="cadastro.html" class="signup-btn">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Cadastre-se</span>
+                </a>
+
+                <div class="user-greeting" id="user-greeting" aria-live="polite">
+                    <button class="account-trigger" type="button" onclick="toggleAccountMenu(event)" aria-expanded="false" aria-controls="account-menu">
+                        <i class="fas fa-gem"></i>
+                        <span class="welcome-text" id="welcome-text">Bem-vindo</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="account-menu" id="account-menu">
+                        <a href="perfil.html">
+                            <i class="fas fa-user"></i>
+                            <span>Meu Perfil</span>
+                        </a>
+                        <a href="meus-pedidos.html">
+                            <i class="fas fa-receipt"></i>
+                            <span>Meus pedidos</span>
+                        </a>
+                        <button type="button" onclick="sairDaConta()">
+                            <i class="fas fa-right-from-bracket"></i>
+                            <span>Sair</span>
+                        </button>
+                    </div>
+                </div>
+
+                <a href="admin.html" class="admin-link" id="admin-link">
+                    <i class="fas fa-store"></i>
+                    <span>Gerenciar Loja</span>
+                </a>
+            </div>
+
+            <div class="header-icons">
+                <div class="cart-icon-container" onclick="toggleCart()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-badge" id="cart-count">0</span>
+                </div>
+                <i class="fas fa-bars menu-toggle" onclick="toggleMenu()"></i>
+            </div>
+        </header>
+
+        <!-- Carrossel -->
+        <section class="carousel-container" id="inicio">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1616294087164-47456d8171e3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h1>Nova Coleção de Luxo</h1>
+                    <p>Descubra a harmonia perfeita entre conforto e elegância.</p>
+                    <a href="#vitrine" class="btn">Explorar Coleção</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1607343381936-d8b80aad41a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h1>Joias e Semijoias Premium</h1>
+                    <p>Detalhes precisos que valorizam a essência feminina.</p>
+                    <a href="#vitrine" class="btn">Ver Novidades</a>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1700236643551-e14dc9aae2ea?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="slide-content">
+                    <h1>Conjuntos Exclusivos</h1>
+                    <p>O detalhe que transforma qualquer produção.</p>
+                    <a href="#vitrine" class="btn">Comprar Agora</a>
+                </div>
+            </div>
+
+            <button class="prev" onclick="moveSlide(-1)">❮</button>
+            <button class="next" onclick="moveSlide(1)">❯</button>
+        </section>
+
+        <!-- Produtos -->
+        <section class="produtos" id="vitrine">
+            <h2 class="secao-titulo">Destaques da Curadoria</h2>
+            <p class="secao-subtitulo">Joias que traduzem elegância atemporal, com exclusividade para iluminar cada momento, unindo delicadeza e sofisticação.</p>
+            
+            <div class="grid-produtos" id="grid-produtos">
+                <div class="produto-card">
+                    <div class="img-container">
+                        <img src="./Imagens utilizadas/brinco-brilhante.avif" alt="Brinco Pedras de Diamante" class="produto-img">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Brinco Pedras de Diamante</h3>
+                        <p class="preco">R$ 29,90</p>
+                        <button class="btn btn-add-cart" onclick="adicionarAoCarrinho(&#39;Brinco Pedras de Diamante&#39;, 29.90)">Adicionar à Sacola</button>
+                    </div>
+                </div>
+                <div class="produto-card">
+                    <div class="img-container">
+                        <img src="./Imagens utilizadas/colar-joia.avif" alt="Colar Gota Cravejada prata925" class="produto-img">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Colar Gota Cravejada prata925</h3> 
+                        <p class="preco">R$ 49,90</p>
+                        <button class="btn btn-add-cart" onclick="adicionarAoCarrinho(&#39;Colar Gota Cravejada prata925&#39;, 49.90)">Adicionar à Sacola</button>
+                    </div>
+                </div>
+                <div class="produto-card">
+                    <div class="img-container">
+                        <img src="./Imagens utilizadas/colar-sol.avif" alt="Colar Sol Vazado prata925" class="produto-img">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Colar Sol Vazado prata925</h3>
+                        <p class="preco">R$ 49,90</p>
+                        <button class="btn btn-add-cart" onclick="adicionarAoCarrinho(&#39;Colar Sol Vazado prata925&#39;, 49.90)">Adicionar à Sacola</button>
+                    </div>
+                </div>
+                <div class="produto-card">
+                    <div class="img-container">
+                        <img src="./Imagens utilizadas/conjunto-colar-brinco.avif" alt="Conjunto Colar e Brinco de Ramo prata925" class="produto-img">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Conjunto Colar e Brinco de Ramo</h3>
+                        <p class="preco">R$ 79,90</p>
+                        <button class="btn btn-add-cart" onclick="adicionarAoCarrinho(&#39;Conjunto Colar e Brinco de Ramo&#39;, 79.90)">Adicionar à Sacola</button>
+                    </div>
+                </div>
+                <div class="produto-card">
+                    <div class="img-container">
+                        <img src="./Imagens utilizadas/conjunto-colar-brinco2.avif" alt="Conjunto Colar e Brinco de Pedra Nlux prata925" class="produto-img">
+                    </div>
+                    <div class="produto-info">
+                        <h3>Conjunto Colar e Brinco de Pedra Nlux</h3>
+                        <p class="preco">R$ 79,90</p>
+                        <button class="btn btn-add-cart" onclick="adicionarAoCarrinho(&#39;Conjunto Colar e Brinco de Pedra Nlux&#39;, 79.90)">Adicionar à Sacola</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carrinho Lateral -->
+        <div class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h3>Sua Sacola</h3>
+                <i class="fas fa-times close-cart" onclick="toggleCart()"></i>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <p style="text-align:center; color:#999; margin-top:40px;">Sua sacola está vazia no momento.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Subtotal</span>
+                    <span id="cart-total-price">R$ 0,00</span>
+                </div>
+                <button class="btn btn-checkout" onclick="irParaCheckout()" >
+                    <i class="fas fa-lock"></i> Ir para o Pagamento
+                </button>
+                <p class="checkout-feedback" id="checkout-feedback"></p>
+            </div>
+        </div>
+
+        <!-- Pagamento Pix -->
+        <aside class="pix-sidebar" id="pix-sidebar" aria-hidden="true">
+            <div class="pix-header">
+                <h3>Pagamento Pix</h3>
+                <i class="fas fa-times close-pix" onclick="closePixPayment()"></i>
+            </div>
+            <div class="pix-content">
+                <p class="pix-intro">Finalize pelo Pix usando o QR Code ou o copia e cola abaixo.</p>
+                <div class="pix-summary">
+                    <div class="pix-summary-row">
+                        <span>Chave Pix</span>
+                        <strong>11967656397</strong>
+                    </div>
+                    <div class="pix-summary-row">
+                        <span>Pedido</span>
+                        <strong id="pix-order-id">-</strong>
+                    </div>
+                    <div class="pix-summary-row">
+                        <span>Total</span>
+                        <strong id="pix-total">R$ 0,00</strong>
+                    </div>
+                </div>
+                <div class="pix-qrcode" id="pix-qrcode"></div>
+                <textarea class="pix-copy" id="pix-copy-code" readonly aria-label="Código Pix copia e cola"></textarea>
+                <div class="pix-actions">
+                    <button class="btn" type="button" onclick="copiarCodigoPix()">
+                        <i class="fas fa-copy"></i> Copiar Pix
+                    </button>
+                    <button class="pix-secondary pix-confirm" type="button" onclick="confirmarPagamentoPixCliente()">
+                        <i class="fas fa-circle-check"></i> Confirmar pagamento Pix
+                    </button>
+                    <a class="pix-secondary" id="pix-whatsapp" href="https://wa.me/11967656397" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i> Enviar comprovante
+                    </a>
+                </div>
+                <p class="pix-feedback" id="pix-feedback"></p>
+            </div>
+            <div class="pix-footer">
+                Após o pagamento, envie o comprovante pelo WhatsApp para confirmarmos seu pedido.
+            </div>
+        </aside>
+
+        <!-- Atendimento Lateral -->
+        <aside class="support-sidebar" id="support-sidebar" aria-hidden="true">
+            <div class="support-header">
+                <div class="support-title">
+                    <i class="fas fa-gem" id="support-icon"></i>
+                    <h3 id="support-title">Atendimento</h3>
+                </div>
+                <i class="fas fa-times close-support" onclick="closeSupport()"></i>
+            </div>
+            <div class="support-content" id="support-content"></div>
+            <div class="support-footer">
+                Precisa de ajuda com uma peça específica? Fale com a Sheron Maison pelo WhatsApp ou e-mail.
+            </div>
+        </aside>
+
+        <!-- Contato -->
+        <section class="contato-wrapper" id="contato">
+            <div class="contato-info">
+                <h2 class="secao-titulo" style="font-size: 2rem;">Nossa Loja</h2>
+                <p class="secao-subtitulo" style="margin-bottom: 30px;">Venha vivenciar a experiência Sheron Maison pessoalmente.</p>
+                
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="info-text">
+                        <strong>Endereço</strong>
+                        <span>Av. Marquês de S. Vicente, 3001  - Água Branca<br>São Paulo - SP, 05037-040</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone"></i>
+                    <div class="info-text">
+                        <strong>Telefone</strong>
+                        <span>(11) 96765-6397</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="info-text">
+                        <strong>E-mail</strong>
+                        <span>sheronmaisonjoias@gmail.com</span>
+                    </div>
+                </div>
+
+                <!-- Mapa da loja -->
+                <div class="mapa"> 
+                    <iframe
+                        title="Mapa da Sheron Maison"
+                        src="https://maps.google.com/maps?q=Av.%20Marqu%C3%AAs%20de%20S.%20Vicente%2C%203001%20-%20%C3%81gua%20Branca%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2005037-040&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        allowfullscreen
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>  
+
+            <div class="contato-form">
+                <h2 class="secao-titulo" style="font-size: 1.8rem;">Envie uma Mensagem</h2>
+                <p style="color: var(--cor-texto-claro); margin-bottom: 20px;">Dúvidas sobre peças, tamanhos ou sugestões? Escreva para nós.</p>
+                <form class="formulario" action="mailto:sheronmaisonjoias@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-row">
+                        <input type="text" name="Nome" placeholder="Nome Completo" required>
+                        <input type="email" name="Email" placeholder="E-mail de Contato" required>
+                    </div>
+                    <input type="text" name="Assunto" placeholder="Assunto da Mensagem" required>
+                    <textarea name="Mensagem" placeholder="Como podemos ajudar?" required></textarea>
+                    <button type="submit" class="btn" style="width: 100%;">Enviar Mensagem</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="footer-grid">
+                <div class="footer-col" id="sobre">
+                    <h4>Sheron Maison</h4>
+                    <p>Mais do que acessórios, a Sheron Maison nasce da paixão pela elegância feminina e pela beleza dos detalhes. Nossa curadoria exclusiva de joias e semijoias reúne peças sofisticadas, delicadas e atemporais, cuidadosamente selecionadas para realçar a personalidade, a confiança e o brilho único de cada mulher.</p>
+                    <p>⭐ 4,6 de 5 no Google Maps.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Atendimento</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de Trocas e Devoluções</a></li>
+                        <li><a href="#">Prazos e Entregas</a></li>
+                        <li><a href="#">Perguntas Frequentes (FAQ)</a></li>
+                        <li><a href="#">Guia de Medidas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Conecte-se</h4>
+                    <p>Siga-nos nas redes sociais e acompanhe os lançamentos diários.</p>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/sheronmaison_?igsh=ZTg3aXBkNm5nb2Uw" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/11967656397" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:sheronmaisonjoias@gmail.com?subject=Dúvida - Site Sheron Maison" target="_blank" rel="noopener noreferrer"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                © 2026 Sheron Maison. Loja de Joias e Semijoias em São Paulo/SP. Todos os direitos reservados.
+            </div>
+        </footer>
+
+        <!-- E-mail flutuante -->
+        <a href="mailto:sheronmaisonjoias@gmail.com?subject=Dúvida - Site Sheron Maison" class="email-float" title="Envie-nos um e-mail" target="_blank" rel="noopener noreferrer">
+            <i class="fas fa-envelope"></i>
+        </a>
+
+
+        <a href="https://wa.me/11967656397" class="zap-float" title="Envie-nos uma mensagem" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- SCRIPT (Carrossel, Carrinho e Integração com Checkout) -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
+        <script src="firebase-config.js"></script>
+        <script>
+            // --- LÓGICA DO MENU MOBILE ---
+            function toggleMenu() {
+                const menu = document.getElementById('menu-links');
+                menu.classList.toggle('active');
+            }
+
+            // --- LOGIN ---
+            function toggleLogin(event) {
+                event.stopPropagation();
+                const loginPopover = document.getElementById('login-popover');
+                const recoveryPopover = document.getElementById('recovery-popover');
+                const loginButton = document.querySelector('.login-btn');
+                recoveryPopover.classList.remove('open');
+                const isOpen = loginPopover.classList.toggle('open');
+                loginButton.setAttribute('aria-expanded', isOpen);
+            }
+
+            function abrirRecuperacaoSenha(event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const loginPopover = document.getElementById('login-popover');
+                const recoveryPopover = document.getElementById('recovery-popover');
+                const loginEmail = document.getElementById('login-email').value.trim();
+
+                document.getElementById('recovery-feedback').innerText = '';
+                document.getElementById('recovery-feedback').classList.remove('success');
+                document.getElementById('recovery-email').value = loginEmail;
+                loginPopover.classList.remove('open');
+                recoveryPopover.classList.add('open');
+            }
+
+            function voltarParaLogin() {
+                document.getElementById('recovery-popover').classList.remove('open');
+                document.getElementById('login-popover').classList.add('open');
+            }
+
+            function toggleAccountMenu(event) {
+                event.stopPropagation();
+                const accountMenu = document.getElementById('account-menu');
+                const accountTrigger = document.querySelector('.account-trigger');
+                const isOpen = accountMenu.classList.toggle('open');
+                accountTrigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+
+            function closeAccountMenu() {
+                const accountMenu = document.getElementById('account-menu');
+                const accountTrigger = document.querySelector('.account-trigger');
+
+                if (!accountMenu || !accountTrigger) return;
+
+                accountMenu.classList.remove('open');
+                accountTrigger.setAttribute('aria-expanded', 'false');
+            }
+
+            async function enviarRecuperacaoSenha(event) {
+                event.preventDefault();
+
+                const email = document.getElementById('recovery-email').value.trim();
+                const feedback = document.getElementById('recovery-feedback');
+                const submitButton = event.target.querySelector('.recovery-submit');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                feedback.classList.remove('success');
+                feedback.innerText = '';
+
+                if (!emailRegex.test(email)) {
+                    feedback.innerText = 'Digite um e-mail válido.';
+                    return;
+                }
+
+                submitButton.disabled = true;
+                submitButton.innerText = 'Enviando...';
+
+                try {
+                    const methods = await auth.fetchSignInMethodsForEmail(email);
+
+                    if (!methods.length) {
+                        feedback.innerText = 'Não encontramos uma conta com este e-mail.';
+                        return;
+                    }
+
+                    await auth.sendPasswordResetEmail(email);
+                    feedback.classList.add('success');
+                    feedback.innerText = 'Link de recuperação enviado para seu e-mail.';
+                    event.target.reset();
+                } catch (error) {
+                    feedback.innerText = traduzirErroFirebase(error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.innerText = 'Enviar link';
+                }
+            }
+
+            function traduzirErroFirebase(error) {
+                const mensagens = {
+                    'auth/invalid-email': 'Digite um e-mail válido.',
+                    'auth/user-not-found': 'Não encontramos uma conta com este e-mail.',
+                    'auth/wrong-password': 'Senha incorreta. Confira e tente novamente.',
+                    'auth/invalid-credential': 'E-mail ou senha inválidos.',
+                    'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos e tente novamente.',
+                    'auth/network-request-failed': 'Falha de conexão. Verifique sua internet.'
+                };
+
+                return mensagens[error.code] || 'Não foi possível entrar agora. Tente novamente.';
+            }
+
+            async function enviarLogin(event) {
+                event.preventDefault();
+
+                const feedback = document.getElementById('login-feedback');
+                const email = document.getElementById('login-email').value.trim();
+                const senha = document.getElementById('login-senha').value;
+                const submitButton = event.target.querySelector('.login-submit');
+
+                feedback.classList.remove('success');
+                feedback.innerText = '';
+                submitButton.disabled = true;
+                submitButton.innerText = 'Entrando...';
+
+                try {
+                    await auth.signInWithEmailAndPassword(email, senha);
+                    feedback.classList.add('success');
+                    feedback.innerText = 'Login realizado com sucesso. Atualizando...';
+                    event.target.reset();
+                    setTimeout(function() {
+                        window.location.reload();
+                    }, 900);
+                } catch (error) {
+                    feedback.innerText = traduzirErroFirebase(error);
+                } finally {
+                    if (!feedback.classList.contains('success')) {
+                        submitButton.disabled = false;
+                        submitButton.innerText = 'Entrar';
+                    }
+                }
+            }
+
+            function togglePasswordVisibility(inputId, button) {
+                const input = document.getElementById(inputId);
+                const icon = button.querySelector('i');
+                const isPassword = input.type === 'password';
+
+                input.type = isPassword ? 'text' : 'password';
+                icon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+                button.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+            }
+
+            function obterPrimeiroNome(nomeCompleto, email) {
+                if (nomeCompleto && nomeCompleto.trim()) {
+                    return nomeCompleto.trim().split(' ')[0];
+                }
+
+                return email ? email.split('@')[0] : 'cliente';
+            }
+
+            function atualizarCabecalhoLogado(nome, email, isAdmin = false) {
+                const loginArea = document.getElementById('login-area');
+                const signupButton = document.querySelector('.signup-btn');
+                const userGreeting = document.getElementById('user-greeting');
+                const welcomeText = document.getElementById('welcome-text');
+                const loginPopover = document.getElementById('login-popover');
+                const recoveryPopover = document.getElementById('recovery-popover');
+                const adminLink = document.getElementById('admin-link');
+                const primeiroNome = obterPrimeiroNome(nome, email);
+
+                loginArea.style.display = 'none';
+                signupButton.style.display = 'none';
+                loginPopover.classList.remove('open');
+                recoveryPopover.classList.remove('open');
+                closeAccountMenu();
+                userGreeting.classList.add('active');
+                adminLink.classList.toggle('active', isAdmin);
+                welcomeText.innerText = `Bem-vindo, ${primeiroNome}`;
+            }
+
+            function atualizarCabecalhoDeslogado() {
+                document.getElementById('login-area').style.display = '';
+                document.querySelector('.signup-btn').style.display = '';
+                document.getElementById('user-greeting').classList.remove('active');
+                document.getElementById('admin-link').classList.remove('active');
+                document.getElementById('welcome-text').innerText = 'Bem-vindo';
+                closeAccountMenu();
+            }
+
+            async function verificarUsuarioAdmin(uid) {
+                try {
+                    const adminDoc = await db.collection('admins').doc(uid).get();
+                    return adminDoc.exists && adminDoc.data().ativo === true;
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            async function verificarUsuarioFuncionario(uid, dadosCliente = null, email = '') {
+                if (String(email || '').toLowerCase() === 'funcionarios@gmail.com') {
+                    return true;
+                }
+
+                if (dadosCliente && dadosCliente.tipoConta === 'funcionario') {
+                    return true;
+                }
+
+                try {
+                    const internoDoc = await db.collection('usuariosInternos').doc(uid).get();
+                    return internoDoc.exists && internoDoc.data().ativo === true && internoDoc.data().tipo === 'funcionario';
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            async function sairDaConta() {
+                await auth.signOut();
+            }
+
+            auth.onAuthStateChanged(async function(user) {
+                if (!user) {
+                    atualizarCabecalhoDeslogado();
+                    return;
+                }
+
+                let nomeCliente = user.displayName;
+                let isAdmin = false;
+                let isFuncionario = false;
+                let dadosCliente = null;
+
+                try {
+                    const clienteDoc = await db.collection('clientes').doc(user.uid).get();
+                    if (clienteDoc.exists) {
+                        dadosCliente = clienteDoc.data();
+                    }
+
+                    if (dadosCliente && dadosCliente.nomeCompleto) {
+                        nomeCliente = dadosCliente.nomeCompleto;
+                    }
+                } catch (error) {
+                    console.warn('Não foi possível buscar o nome do cliente.', error);
+                }
+
+                isAdmin = await verificarUsuarioAdmin(user.uid);
+                if (!isAdmin) {
+                    isFuncionario = await verificarUsuarioFuncionario(user.uid, dadosCliente, user.email);
+                }
+                atualizarCabecalhoLogado(nomeCliente, user.email, isAdmin || isFuncionario);
+
+                const adminLink = document.getElementById('admin-link');
+                if (isFuncionario) {
+                    adminLink.href = 'vendas.html';
+                    adminLink.querySelector('i').className = 'fas fa-receipt';
+                    adminLink.querySelector('span').innerText = 'Vendas';
+                    adminLink.classList.add('active');
+                } else {
+                    adminLink.href = 'admin.html';
+                    adminLink.querySelector('i').className = 'fas fa-store';
+                    adminLink.querySelector('span').innerText = 'Gerenciar Loja';
+                }
+            });
+
+            function abrirLoginSeSolicitado() {
+                if (window.location.hash !== '#login') return;
+
+                const loginPopover = document.getElementById('login-popover');
+                const loginButton = document.querySelector('.login-btn');
+                loginPopover.classList.add('open');
+                loginButton.setAttribute('aria-expanded', 'true');
+            }
+
+            document.addEventListener('click', function(event) {
+                const loginArea = document.getElementById('login-area');
+                const loginPopover = document.getElementById('login-popover');
+                const recoveryPopover = document.getElementById('recovery-popover');
+                const loginButton = document.querySelector('.login-btn');
+                const userGreeting = document.getElementById('user-greeting');
+
+                if (!loginArea.contains(event.target)) {
+                    loginPopover.classList.remove('open');
+                    recoveryPopover.classList.remove('open');
+                    loginButton.setAttribute('aria-expanded', 'false');
+                }
+
+                if (!userGreeting.contains(event.target)) {
+                    closeAccountMenu();
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', abrirLoginSeSolicitado);
+
+            // --- ATENDIMENTO LATERAL ---
+            const supportData = {
+                trocas: {
+                    icon: 'fas fa-rotate-left',
+                    title: 'Trocas e Devoluções',
+                    intro: 'A Sheron Maison cuida para que cada peça chegue com qualidade e acabamento impecáveis. Se algo não sair como esperado, nossa equipe acompanha a solicitação com atenção.',
+                    highlight: 'Solicitações podem ser feitas em até 7 dias corridos após o recebimento. A peça deve estar sem uso, com embalagem e acessórios enviados.',
+                    sections: [
+                        { title: 'Quando solicitar', items: ['Troca por defeito de fabricação identificado após o recebimento.', 'Devolução por arrependimento dentro do prazo legal.', 'Ajustes de tamanho quando a peça permitir regulagem ou substituição.'] },
+                        { title: 'Cuidados importantes', items: ['Peças com sinais de uso, contato com perfume, creme ou banho não entram em troca.', 'Itens personalizados ou sob encomenda seguem análise individual.', 'Guarde fotos da embalagem e da peça para agilizar o atendimento.'] }
+                    ],
+                    cards: [['Prazo', 'Até 7 dias corridos'], ['Condição', 'Sem uso e com embalagem'], ['Análise', 'Até 2 dias úteis'], ['Canal', 'WhatsApp ou e-mail']]
+                },
+                entregas: {
+                    icon: 'fas fa-truck-fast',
+                    title: 'Prazos e Entregas',
+                    intro: 'Os pedidos são preparados com cuidado para proteger o brilho, a estrutura e os detalhes das joias e semijoias durante o transporte.',
+                    highlight: 'O prazo começa a contar após a confirmação do pagamento e pode variar conforme região, modalidade escolhida e disponibilidade da peça.',
+                    sections: [
+                        { title: 'Como funciona', items: ['Separação e conferência do pedido em até 2 dias úteis.', 'Envio com embalagem protegida para peças delicadas.', 'Código de rastreio enviado pelo canal informado no cadastro.'] },
+                        { title: 'Estimativas comuns', items: ['São Paulo capital: geralmente entre 2 e 5 dias úteis após postagem.', 'Demais regiões: geralmente entre 5 e 12 dias úteis após postagem.', 'Datas comemorativas podem aumentar o prazo de preparo e transporte.'] }
+                    ],
+                    cards: [['Preparo', 'Até 2 dias úteis'], ['Rastreio', 'Após postagem'], ['Retirada', 'Sob consulta'], ['Embalagem', 'Protegida']]
+                },
+                faq: {
+                    icon: 'fas fa-circle-question',
+                    title: 'Perguntas Frequentes',
+                    intro: 'Reunimos as dúvidas mais comuns para facilitar sua compra e ajudar na conservação das suas peças.',
+                    highlight: 'Joias e semijoias pedem cuidado delicado: evite água, perfume, suor excessivo e produtos químicos para preservar banho, brilho e pedras.',
+                    sections: [
+                        { title: 'Compra e pagamento', items: ['É possível finalizar a compra pela sacola do site e seguir para o checkout.', 'Produtos podem ter pequena variação de cor por iluminação da foto ou tela do aparelho.', 'Peças com alta procura podem sair de estoque rapidamente.'] },
+                        { title: 'Conservação das peças', items: ['Guarde cada peça separadamente para evitar atrito e riscos.', 'Limpe com flanela macia e seca, sem abrasivos.', 'Retire antes de banho, piscina, academia e aplicação de cosméticos.'] }
+                    ],
+                    cards: [['Banho', 'Evite água'], ['Perfume', 'Aplique antes'], ['Limpeza', 'Flanela seca'], ['Guarda', 'Separada']]
+                },
+                medidas: {
+                    icon: 'fas fa-ruler-combined',
+                    title: 'Guia de Medidas',
+                    intro: 'Use medidas simples para escolher colares, pulseiras e anéis com mais segurança antes da compra.',
+                    highlight: 'Para peças delicadas, a melhor referência é comparar com uma joia que você já usa e gosta do caimento.',
+                    sections: [
+                        { title: 'Colares', items: ['35 a 40 cm: caimento curto, próximo ao pescoço.', '45 cm: comprimento clássico para pingentes pequenos e médios.', '50 cm ou mais: visual alongado, ótimo para sobreposição.'] },
+                        { title: 'Pulseiras e anéis', items: ['Pulseiras: meça o punho e acrescente cerca de 1 a 2 cm para conforto.', 'Anéis: meça o diâmetro interno de um anel confortável.', 'Em caso de dúvida entre tamanhos, prefira confirmar pelo atendimento.'] }
+                    ],
+                    cards: [['Choker', '35 a 40 cm'], ['Colar clássico', '45 cm'], ['Pulseira', 'Punho + 1 a 2 cm'], ['Anel', 'Diâmetro interno']]
+                }
+            };
+
+            function renderSupportContent(data) {
+                const sections = data.sections.map(section => `
+                    <div class="support-section">
+                        <h4>${section.title}</h4>
+                        <ul class="support-list">
+                            ${section.items.map(item => `<li><i class="fas fa-check"></i><span>${item}</span></li>`).join('')}
+                        </ul>
+                    </div>
+                `).join('');
+
+                const cards = data.cards.map(card => `
+                    <div class="support-mini-card">
+                        <strong>${card[0]}</strong>
+                        <span>${card[1]}</span>
+                    </div>
+                `).join('');
+
+                return `
+                    <p class="support-intro">${data.intro}</p>
+                    <div class="support-highlight">${data.highlight}</div>
+                    ${sections}
+                    <div class="support-grid">${cards}</div>
+                `;
+            }
+
+            function openSupport(type) {
+                const data = supportData[type];
+                if (!data) return;
+
+                const supportSidebar = document.getElementById('support-sidebar');
+                const cartSidebar = document.getElementById('cart-sidebar');
+                const pixSidebar = document.getElementById('pix-sidebar');
+                const overlay = document.getElementById('overlay');
+
+                document.getElementById('support-title').innerText = data.title;
+                document.getElementById('support-icon').className = data.icon;
+                document.getElementById('support-content').innerHTML = renderSupportContent(data);
+
+                cartSidebar.classList.remove('open');
+                pixSidebar.classList.remove('open');
+                pixSidebar.setAttribute('aria-hidden', 'true');
+                supportSidebar.classList.add('open');
+                supportSidebar.setAttribute('aria-hidden', 'false');
+                overlay.classList.add('active');
+            }
+
+            function closeSupport() {
+                const supportSidebar = document.getElementById('support-sidebar');
+                const overlay = document.getElementById('overlay');
+                supportSidebar.classList.remove('open');
+                supportSidebar.setAttribute('aria-hidden', 'true');
+
+                if (!document.getElementById('cart-sidebar').classList.contains('open')) {
+                    overlay.classList.remove('active');
+                }
+            }
+
+            function closeSidePanels() {
+                document.getElementById('cart-sidebar').classList.remove('open');
+                document.getElementById('support-sidebar').classList.remove('open');
+                document.getElementById('pix-sidebar').classList.remove('open');
+                document.getElementById('support-sidebar').setAttribute('aria-hidden', 'true');
+                document.getElementById('pix-sidebar').setAttribute('aria-hidden', 'true');
+                document.getElementById('overlay').classList.remove('active');
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const supportLinks = document.querySelectorAll('.footer-links a');
+                const supportTypes = ['trocas', 'entregas', 'faq', 'medidas'];
+
+                supportLinks.forEach((link, index) => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        openSupport(supportTypes[index]);
+                    });
+                });
+            });
+
+            // --- LÓGICA DO CARROSSEL ---
+            let slideIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            let slideInterval = setInterval(() => moveSlide(1), 5000); 
+
+            function moveSlide(n) {
+                slides[slideIndex].classList.remove('active');
+                slideIndex += n;
+            
+                if (slideIndex >= slides.length) slideIndex = 0;
+                if (slideIndex < 0) slideIndex = slides.length - 1;
+            
+                slides[slideIndex].classList.add('active');
+            
+                clearInterval(slideInterval);
+                slideInterval = setInterval(() => moveSlide(1), 5000);
+            }
+
+            // --- LÓGICA DO CARRINHO DE COMPRAS ---
+            // --- PRODUTOS FIRESTORE ---
+            function formatarPrecoProduto(preco) {
+                return 'R$ ' + Number(preco).toFixed(2).replace('.', ',');
+            }
+
+            function renderizarProdutos(produtos) {
+                const gridProdutos = document.getElementById('grid-produtos');
+                gridProdutos.innerHTML = '';
+
+                produtos.forEach(produto => {
+                    const card = document.createElement('div');
+                    card.className = 'produto-card';
+
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'img-container';
+
+                    const imagem = document.createElement('img');
+                    imagem.src = produto.imagem;
+                    imagem.alt = produto.alt || produto.nome;
+                    imagem.className = 'produto-img';
+                    imgContainer.appendChild(imagem);
+
+                    const info = document.createElement('div');
+                    info.className = 'produto-info';
+
+                    const titulo = document.createElement('h3');
+                    titulo.innerText = produto.nome;
+
+                    const preco = document.createElement('p');
+                    preco.className = 'preco';
+                    preco.innerText = formatarPrecoProduto(produto.preco);
+
+                    const botao = document.createElement('button');
+                    botao.className = 'btn btn-add-cart';
+                    botao.type = 'button';
+                    botao.innerText = 'Adicionar à Sacola';
+                    botao.addEventListener('click', function() {
+                        adicionarAoCarrinho(produto.nome, Number(produto.preco), produto.id);
+                    });
+
+                    info.appendChild(titulo);
+                    info.appendChild(preco);
+                    info.appendChild(botao);
+                    card.appendChild(imgContainer);
+                    card.appendChild(info);
+                    gridProdutos.appendChild(card);
+                });
+            }
+
+            async function carregarProdutosDoFirebase() {
+                try {
+                    const snapshot = await db.collection('produtos').where('ativo', '==', true).get();
+
+                    if (snapshot.empty) return;
+
+                    const produtos = snapshot.docs
+                        .map(doc => ({ id: doc.id, ...doc.data() }))
+                        .sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
+
+                    renderizarProdutos(produtos);
+                } catch (error) {
+                    console.warn('Produtos do Firebase indisponíveis. Usando vitrine local.', error);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', carregarProdutosDoFirebase);
+
+            let carrinho = [];
+
+            window.addEventListener('load', function() {
+                localStorage.removeItem('modaECia_carrinho');
+                carrinho = [];
+                atualizarCarrinho();
+            });
+
+            function adicionarAoCarrinho(nome, preco, produtoId = null) {
+                carrinho.push({ nome: nome, preco: preco, produtoId: produtoId });
+                atualizarCarrinho();
+            
+                if(!document.getElementById('cart-sidebar').classList.contains('open')){
+                    toggleCart();
+                }
+            }
+
+            function removerDoCarrinho(index) {
+                carrinho.splice(index, 1);
+                atualizarCarrinho();
+            }
+
+            function atualizarCarrinho() {
+                const cartItemsContainer = document.getElementById('cart-items');
+                const cartCount = document.getElementById('cart-count');
+                const cartTotalPrice = document.getElementById('cart-total-price');
+                const checkoutFeedback = document.getElementById('checkout-feedback');
+
+                cartItemsContainer.innerHTML = ''; 
+                let total = 0;
+                checkoutFeedback.innerText = '';
+
+                if (carrinho.length === 0) {
+                    cartItemsContainer.innerHTML = '<p style="text-align:center; color:#999; margin-top:40px;">Sua sacola está vazia no momento.</p>';
+                    cartCount.innerText = '0';
+                    cartTotalPrice.innerText = 'R$ 0,00';
+                    return;
+                }
+
+                carrinho.forEach((item, index) => {
+                    total += item.preco;
+                    const div = document.createElement('div');
+                    div.classList.add('cart-item');
+                    div.innerHTML = `
+                        <div>
+                            <div class="cart-item-title">${item.nome}</div>
+                            <div class="cart-item-price">R$ ${item.preco.toFixed(2).replace('.', ',')}</div>
+                        </div>
+                        <span class="cart-item-remove" onclick="removerDoCarrinho(${index})">Remover</span>
+                    `;
+                    cartItemsContainer.appendChild(div);
+                });
+
+                cartCount.innerText = carrinho.length;
+                cartTotalPrice.innerText = 'R$ ' + total.toFixed(2).replace('.', ',');
+            }
+
+            function calcularTotalCarrinho() {
+                return carrinho.reduce((total, item) => total + item.preco, 0);
+            }
+
+            function toggleCart() {
+                const sidebar = document.getElementById('cart-sidebar');
+                const supportSidebar = document.getElementById('support-sidebar');
+                const pixSidebar = document.getElementById('pix-sidebar');
+                const overlay = document.getElementById('overlay');
+                supportSidebar.classList.remove('open');
+                supportSidebar.setAttribute('aria-hidden', 'true');
+                pixSidebar.classList.remove('open');
+                pixSidebar.setAttribute('aria-hidden', 'true');
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            }
+
+            function formatarMoeda(valor) {
+                return 'R$ ' + valor.toFixed(2).replace('.', ',');
+            }
+
+            function emvTag(id, value) {
+                const stringValue = String(value);
+                return id + String(stringValue.length).padStart(2, '0') + stringValue;
+            }
+
+            function limparTextoPix(texto, limite) {
+                return texto
+                    .normalize('NFD')
+                    .replace(/[\u0300-\u036f]/g, '')
+                    .replace(/[^A-Za-z0-9 ]/g, '')
+                    .toUpperCase()
+                    .slice(0, limite);
+            }
+
+            function crc16Pix(payload) {
+                let crc = 0xFFFF;
+
+                for (let i = 0; i < payload.length; i++) {
+                    crc ^= payload.charCodeAt(i) << 8;
+
+                    for (let j = 0; j < 8; j++) {
+                        crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+                        crc &= 0xFFFF;
+                    }
+                }
+
+                return crc.toString(16).toUpperCase().padStart(4, '0');
+            }
+
+            function gerarPayloadPix(total, txid) {
+                const chavePix = '+5511967656397';
+                const merchantAccount = emvTag('00', 'br.gov.bcb.pix') + emvTag('01', chavePix);
+                const additionalData = emvTag('05', txid.slice(0, 25));
+                const payloadSemCrc =
+                    emvTag('00', '01') +
+                    emvTag('26', merchantAccount) +
+                    emvTag('52', '0000') +
+                    emvTag('53', '986') +
+                    emvTag('54', total.toFixed(2)) +
+                    emvTag('58', 'BR') +
+                    emvTag('59', limparTextoPix('Sheron Maison', 25)) +
+                    emvTag('60', limparTextoPix('Sao Paulo', 15)) +
+                    emvTag('62', additionalData) +
+                    '6304';
+
+                return payloadSemCrc + crc16Pix(payloadSemCrc);
+            }
+
+            function enderecoEntregaCompleto(endereco) {
+                if (!endereco) return false;
+
+                const camposObrigatorios = ['cep', 'rua', 'numero', 'bairro', 'cidade', 'estado'];
+                return camposObrigatorios.every(campo => String(endereco[campo] || '').trim().length > 0);
+            }
+
+            async function abrirPagamentoPix() {
+                const total = calcularTotalCarrinho();
+                const pixSidebar = document.getElementById('pix-sidebar');
+                const cartSidebar = document.getElementById('cart-sidebar');
+                const overlay = document.getElementById('overlay');
+                const pixFeedback = document.getElementById('pix-feedback');
+                const checkoutFeedback = document.getElementById('checkout-feedback');
+
+                pixFeedback.classList.remove('error');
+                pixFeedback.innerText = 'Gerando pedido Pix...';
+                checkoutFeedback.innerText = '';
+
+                try {
+                    const clienteDoc = await db.collection('clientes').doc(auth.currentUser.uid).get();
+                    const dadosCliente = clienteDoc.exists ? clienteDoc.data() : {};
+                    const enderecoEntrega = dadosCliente.endereco || null;
+
+                    if (!enderecoEntregaCompleto(enderecoEntrega)) {
+                        pixFeedback.innerText = '';
+                        checkoutFeedback.innerHTML = 'Complete seu endereço em <a href="perfil.html" target="_blank" rel="noopener noreferrer">Meu Perfil</a> para finalizar o pagamento.';
+                        return;
+                    }
+
+                    const pedidoRef = db.collection('clientes').doc(auth.currentUser.uid).collection('pedidos').doc();
+                    const pedidoGlobalRef = db.collection('pedidos').doc(pedidoRef.id);
+                    const codigoPix = gerarPayloadPix(total, pedidoRef.id);
+                    const itens = carrinho.map(item => ({ nome: item.nome, preco: item.preco, produtoId: item.produtoId || null }));
+
+                    const pedidoData = {
+                        clienteId: auth.currentUser.uid,
+                        clienteEmail: auth.currentUser.email,
+                        clienteNome: dadosCliente.nomeCompleto || auth.currentUser.displayName || '',
+                        clienteTelefone: dadosCliente.telefone || '',
+                        enderecoEntrega: {
+                            cep: enderecoEntrega.cep,
+                            rua: enderecoEntrega.rua,
+                            numero: enderecoEntrega.numero,
+                            complemento: enderecoEntrega.complemento || '',
+                            bairro: enderecoEntrega.bairro,
+                            cidade: enderecoEntrega.cidade,
+                            estado: enderecoEntrega.estado
+                        },
+                        itens: itens,
+                        total: total,
+                        formaPagamento: 'pix',
+                        chavePix: '11967656397',
+                        codigoPix: codigoPix,
+                        status: 'aguardando_pix',
+                        criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                    };
+
+                    const batch = db.batch();
+                    batch.set(pedidoRef, pedidoData);
+                    batch.set(pedidoGlobalRef, pedidoData);
+                    await batch.commit();
+
+                    document.getElementById('pix-order-id').innerText = pedidoRef.id.slice(0, 8).toUpperCase();
+                    document.getElementById('pix-total').innerText = formatarMoeda(total);
+                    document.getElementById('pix-copy-code').value = codigoPix;
+                    document.getElementById('pix-qrcode').innerHTML = '';
+
+                    new QRCode(document.getElementById('pix-qrcode'), {
+                        text: codigoPix,
+                        width: 190,
+                        height: 190,
+                        colorDark: '#2C2C2C',
+                        colorLight: '#FAFAFA',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+
+                    const mensagem = encodeURIComponent(`Olá! Realizei um pedido Pix na Sheron Maison.\nPedido: ${pedidoRef.id}\nTotal: ${formatarMoeda(total)}\nSegue o comprovante.`);
+                    document.getElementById('pix-whatsapp').href = `https://wa.me/5511967656397?text=${mensagem}`;
+
+                    cartSidebar.classList.remove('open');
+                    pixSidebar.classList.add('open');
+                    pixSidebar.setAttribute('aria-hidden', 'false');
+                    overlay.classList.add('active');
+                    pixFeedback.innerText = 'Pedido registrado. Aguardando pagamento por Pix.';
+                } catch (error) {
+                    console.error('Erro ao gerar pedido Pix.', error);
+                    checkoutFeedback.innerText = 'Não foi possível registrar o pedido. Verifique as regras do Firestore.';
+                    pixFeedback.classList.add('error');
+                    pixFeedback.innerText = 'Erro ao gerar Pix.';
+                }
+            }
+
+            function closePixPayment() {
+                const pixSidebar = document.getElementById('pix-sidebar');
+                const overlay = document.getElementById('overlay');
+                pixSidebar.classList.remove('open');
+                pixSidebar.setAttribute('aria-hidden', 'true');
+
+                if (!document.getElementById('cart-sidebar').classList.contains('open') && !document.getElementById('support-sidebar').classList.contains('open')) {
+                    overlay.classList.remove('active');
+                }
+            }
+
+            async function copiarCodigoPix() {
+                const pixCode = document.getElementById('pix-copy-code');
+                const pixFeedback = document.getElementById('pix-feedback');
+
+                pixCode.select();
+                pixCode.setSelectionRange(0, 99999);
+
+                try {
+                    await navigator.clipboard.writeText(pixCode.value);
+                } catch (error) {
+                    document.execCommand('copy');
+                }
+
+                pixFeedback.classList.remove('error');
+                pixFeedback.innerText = 'Código Pix copiado.';
+            }
+
+            function confirmarPagamentoPixCliente() {
+                const pixFeedback = document.getElementById('pix-feedback');
+                const pixSidebar = document.getElementById('pix-sidebar');
+                const overlay = document.getElementById('overlay');
+
+                carrinho = [];
+                localStorage.removeItem('modaECia_carrinho');
+                atualizarCarrinho();
+
+                pixFeedback.classList.remove('error');
+                pixFeedback.innerText = 'Pedido finalizado. Envie o comprovante para confirmação do ADM.';
+
+                setTimeout(function() {
+                    pixSidebar.classList.remove('open');
+                    pixSidebar.setAttribute('aria-hidden', 'true');
+
+                    if (!document.getElementById('cart-sidebar').classList.contains('open') && !document.getElementById('support-sidebar').classList.contains('open')) {
+                        overlay.classList.remove('active');
+                    }
+                }, 900);
+            }
+
+            // --- IR PARA O CHECKOUT ---
+            async function irParaCheckout() {
+                if (carrinho.length === 0) {
+                    alert("Sua sacola está vazia. Adicione produtos antes de finalizar.");
+                    return;
+                }
+                // Salva o carrinho na memória do navegador
+                // Redireciona para a página de checkout
+                const checkoutFeedback = document.getElementById('checkout-feedback');
+                checkoutFeedback.innerText = '';
+
+                if (!auth.currentUser) {
+                    checkoutFeedback.innerText = 'Entre ou cadastre-se para finalizar o pagamento.';
+                    document.getElementById('login-popover').classList.add('open');
+                    document.querySelector('.login-btn').setAttribute('aria-expanded', 'true');
+                    return;
+                }
+
+                await abrirPagamentoPix();
+            }
+        </script>
+
+    </div>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+</body>
+</html>

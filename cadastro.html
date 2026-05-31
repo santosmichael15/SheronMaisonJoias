@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro | Sheron Maison</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-primaria: #8C123D;
+            --cor-secundaria: #FDF1F4;
+            --cor-fundo: #FAFAFA;
+            --cor-texto: #2C2C2C;
+            --cor-texto-claro: #666666;
+            --cor-borda: #E2E8F0;
+            --transicao: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Playfair Display', serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transicao);
+        }
+
+        .btn {
+            width: 100%;
+            background-color: var(--cor-primaria);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transicao);
+        }
+
+        .btn:hover {
+            background-color: #741032;
+            box-shadow: 0 4px 12px rgba(185, 28, 82, 0.3);
+        }
+
+        .loja-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            background-color: white;
+            padding: 20px 5%;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            color: var(--cor-primaria);
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        nav ul {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav ul li a {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: var(--cor-primaria);
+        }
+
+        .login-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--cor-primaria);
+            border: 1px solid rgba(140, 18, 61, 0.35);
+            border-radius: 4px;
+            padding: 10px 15px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .login-link:hover {
+            background: var(--cor-secundaria);
+            border-color: var(--cor-primaria);
+            box-shadow: 0 4px 12px rgba(140, 18, 61, 0.12);
+        }
+
+        .cadastro-hero {
+            position: relative;
+            min-height: calc(100vh - 82px);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            overflow: hidden;
+            padding: 58px 5%;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .cadastro-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: linear-gradient(90deg, rgba(0,0,0,0.56), rgba(0,0,0,0.2) 42%, rgba(0,0,0,0.48));
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 2;
+            max-width: 510px;
+            margin-right: auto;
+            color: white;
+            padding-right: 40px;
+        }
+
+        .hero-copy h1 {
+            font-size: clamp(2.6rem, 5vw, 4.4rem);
+            line-height: 1.05;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .hero-copy p {
+            max-width: 430px;
+            font-size: 1.05rem;
+            font-weight: 300;
+            letter-spacing: 0.7px;
+        }
+
+        .cadastro-card {
+            position: relative;
+            z-index: 2;
+            width: min(100%, 470px);
+            background: rgba(255, 255, 255, 0.97);
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 8px;
+            box-shadow: 0 24px 55px rgba(0,0,0,0.22);
+            padding: 34px;
+        }
+
+        .cadastro-card h2 {
+            color: var(--cor-texto);
+            font-size: 2rem;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .cadastro-card > p {
+            color: var(--cor-texto-claro);
+            font-size: 0.92rem;
+            margin-bottom: 24px;
+        }
+
+        .cadastro-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .form-group label {
+            color: var(--cor-texto);
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .form-group input {
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            padding: 13px 14px;
+            transition: var(--transicao);
+        }
+
+        .form-group input:focus {
+            background: white;
+            border-color: var(--cor-primaria);
+            box-shadow: 0 0 0 3px rgba(140, 18, 61, 0.12);
+            outline: none;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+        }
+
+        .password-input-wrapper input {
+            padding-right: 44px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--cor-texto-claro);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: var(--transicao);
+        }
+
+        .toggle-password:hover {
+            color: var(--cor-primaria);
+        }
+
+        .field-feedback {
+            min-height: 18px;
+            color: #b42318;
+            font-size: 0.78rem;
+        }
+
+        .password-meter {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: center;
+            margin-top: 1px;
+        }
+
+        .meter-track {
+            height: 7px;
+            overflow: hidden;
+            background: #eadde1;
+            border-radius: 999px;
+        }
+
+        .meter-fill {
+            width: 0%;
+            height: 100%;
+            background: #b42318;
+            border-radius: inherit;
+            transition: var(--transicao);
+        }
+
+        .meter-label {
+            min-width: 78px;
+            color: var(--cor-texto-claro);
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .password-rules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            color: var(--cor-texto-claro);
+            font-size: 0.72rem;
+        }
+
+        .password-rules span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .password-rules i {
+            color: #b7a3aa;
+            font-size: 0.72rem;
+        }
+
+        .password-rules span.valid,
+        .password-rules span.valid i {
+            color: var(--cor-primaria);
+        }
+
+        .form-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 6px;
+        }
+
+        .back-login {
+            color: var(--cor-primaria);
+            font-size: 0.86rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .back-login:hover {
+            color: var(--cor-texto);
+        }
+
+        .success-message {
+            display: none;
+            align-items: flex-start;
+            gap: 10px;
+            background: #f7edf1;
+            border: 1px solid rgba(140, 18, 61, 0.22);
+            border-radius: 6px;
+            color: var(--cor-texto);
+            font-size: 0.9rem;
+            padding: 14px;
+            margin-top: 2px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        .success-message i {
+            color: var(--cor-primaria);
+            margin-top: 3px;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            z-index: 3;
+            border: none;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 16px;
+            transition: var(--transicao);
+        }
+
+        .prev {
+            left: 0;
+            border-radius: 0 3px 3px 0;
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background: rgba(185, 28, 82, 0.8);
+        }
+
+        @media (max-width: 920px) {
+            .loja-header {
+                flex-wrap: wrap;
+            }
+
+            nav ul {
+                gap: 16px;
+            }
+
+            .cadastro-hero {
+                justify-content: center;
+                padding: 42px 5%;
+            }
+
+            .hero-copy {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .loja-header {
+                align-items: flex-start;
+                gap: 14px;
+            }
+
+            .logo {
+                width: 100%;
+            }
+
+            nav ul {
+                width: 100%;
+                flex-wrap: wrap;
+                gap: 12px 18px;
+            }
+
+            .login-link {
+                padding: 9px 12px;
+            }
+
+            .cadastro-card {
+                padding: 26px 20px;
+            }
+
+            .cadastro-card h2 {
+                font-size: 1.7rem;
+            }
+
+            .password-rules {
+                grid-template-columns: 1fr;
+            }
+
+            .prev, .next {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="loja-header">
+        <a href="index.html" class="logo">Sheron Maison</a>
+
+        <nav>
+            <ul>
+                <li><a href="index.html#inicio">Início</a></li>
+                <li><a href="index.html#vitrine">Coleções</a></li>
+                <li><a href="index.html#contato">Contato</a></li>
+                <li><a href="index.html#sobre">Sobre a Marca</a></li>
+            </ul>
+        </nav>
+
+        <a href="index.html#login" class="login-link">
+            <i class="fas fa-circle-user"></i>
+            Login
+        </a>
+    </header>
+
+    <main class="cadastro-hero">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1616294087164-47456d8171e3?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1607343381936-d8b80aad41a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1700236643551-e14dc9aae2ea?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');"></div>
+
+        <button class="prev" type="button" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" type="button" onclick="moveSlide(1)">&#10095;</button>
+
+        <section class="hero-copy">
+            <h1>Entre para a curadoria Sheron Maison</h1>
+            <p>Crie sua conta para acompanhar pedidos, salvar favoritos e receber novidades selecionadas com a elegância da nossa maison.</p>
+        </section>
+
+        <section class="cadastro-card" aria-labelledby="cadastro-titulo">
+            <h2 id="cadastro-titulo">Crie sua conta</h2>
+            <p>Preencha seus dados para finalizar seu cadastro.</p>
+
+            <form class="cadastro-form" id="cadastro-form" novalidate>
+                <div class="form-group">
+                    <label for="nome">Nome Completo</label>
+                    <input type="text" id="nome" name="nome" placeholder="Seu nome completo" autocomplete="name" required>
+                    <span class="field-feedback" id="nome-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seuemail@exemplo.com" autocomplete="email" required>
+                    <span class="field-feedback" id="email-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input type="tel" id="telefone" name="telefone" placeholder="(11) 99999-9999" autocomplete="tel" required>
+                    <span class="field-feedback" id="telefone-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="data-nascimento">Data de nascimento</label>
+                    <input type="date" id="data-nascimento" name="data-nascimento" autocomplete="bday" required>
+                    <span class="field-feedback" id="nascimento-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="senha" name="senha" placeholder="Crie uma senha segura" autocomplete="new-password" required>
+                        <button class="toggle-password" type="button" onclick="togglePasswordVisibility('senha', this)" aria-label="Mostrar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-meter" aria-live="polite">
+                        <div class="meter-track">
+                            <div class="meter-fill" id="meter-fill"></div>
+                        </div>
+                        <span class="meter-label" id="meter-label">Fraca</span>
+                    </div>
+                    <div class="password-rules">
+                        <span id="rule-lower"><i class="fas fa-circle"></i> Letra menor</span>
+                        <span id="rule-number"><i class="fas fa-circle"></i> Número</span>
+                        <span id="rule-special"><i class="fas fa-circle"></i> Especial</span>
+                    </div>
+                    <span class="field-feedback" id="senha-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmar-senha">Confirmar Senha</label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="confirmar-senha" name="confirmar-senha" placeholder="Repita sua senha" autocomplete="new-password" required>
+                        <button class="toggle-password" type="button" onclick="togglePasswordVisibility('confirmar-senha', this)" aria-label="Mostrar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="field-feedback" id="confirmar-feedback"></span>
+                </div>
+
+                <div class="success-message" id="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Cadastro concluído com sucesso. Você já pode voltar para o login.</span>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">
+                        <i class="fas fa-user-check"></i>
+                        Finalizar Cadastro
+                    </button>
+                    <a href="index.html#login" class="back-login">Voltar para a página de login</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        let slideInterval = setInterval(() => moveSlide(1), 5000);
+
+        function moveSlide(n) {
+            slides[slideIndex].classList.remove('active');
+            slideIndex += n;
+
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+
+            slides[slideIndex].classList.add('active');
+
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => moveSlide(1), 5000);
+        }
+
+        const form = document.getElementById('cadastro-form');
+        const nome = document.getElementById('nome');
+        const email = document.getElementById('email');
+        const telefone = document.getElementById('telefone');
+        const dataNascimento = document.getElementById('data-nascimento');
+        const senha = document.getElementById('senha');
+        const confirmarSenha = document.getElementById('confirmar-senha');
+        const successMessage = document.getElementById('success-message');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        dataNascimento.max = new Date().toISOString().split('T')[0];
+
+        function setFeedback(id, message) {
+            document.getElementById(id).textContent = message;
+        }
+
+        function togglePasswordVisibility(inputId, button) {
+            const input = document.getElementById(inputId);
+            const icon = button.querySelector('i');
+            const isPassword = input.type === 'password';
+
+            input.type = isPassword ? 'text' : 'password';
+            icon.className = isPassword ? 'fas fa-eye-slash' : 'fas fa-eye';
+            button.setAttribute('aria-label', isPassword ? 'Ocultar senha' : 'Mostrar senha');
+        }
+
+        function avaliarSenha(valor) {
+            const temMinuscula = /[a-z]/.test(valor);
+            const temNumero = /\d/.test(valor);
+            const temEspecial = /[^A-Za-z0-9]/.test(valor);
+            const tamanhoBom = valor.length >= 8;
+            const tamanhoExcelente = valor.length >= 12;
+            const temMaiuscula = /[A-Z]/.test(valor);
+
+            document.getElementById('rule-lower').classList.toggle('valid', temMinuscula);
+            document.getElementById('rule-number').classList.toggle('valid', temNumero);
+            document.getElementById('rule-special').classList.toggle('valid', temEspecial);
+
+            const requisitosBasicos = temMinuscula && temNumero && temEspecial;
+            let label = 'Fraca';
+            let width = '33%';
+            let color = '#b42318';
+
+            if (requisitosBasicos && tamanhoBom) {
+                label = 'Forte';
+                width = '66%';
+                color = '#b26a00';
+            }
+
+            if (requisitosBasicos && tamanhoExcelente && temMaiuscula) {
+                label = 'Muito Forte';
+                width = '100%';
+                color = '#8C123D';
+            }
+
+            if (!valor) width = '0%';
+
+            document.getElementById('meter-fill').style.width = width;
+            document.getElementById('meter-fill').style.background = color;
+            document.getElementById('meter-label').textContent = valor ? label : 'Fraca';
+
+            return { requisitosBasicos, tamanhoBom };
+        }
+
+        function validarMaioridade(valor) {
+            if (!valor) {
+                return { valido: false, mensagem: 'Informe sua data de nascimento.' };
+            }
+
+            const nascimento = new Date(`${valor}T00:00:00`);
+            const hoje = new Date();
+            hoje.setHours(0, 0, 0, 0);
+
+            if (Number.isNaN(nascimento.getTime())) {
+                return { valido: false, mensagem: 'Informe uma data de nascimento válida.' };
+            }
+
+            if (nascimento > hoje) {
+                return { valido: false, mensagem: 'A data de nascimento não pode ser futura.' };
+            }
+
+            let idade = hoje.getFullYear() - nascimento.getFullYear();
+            const mesAtual = hoje.getMonth();
+            const diaAtual = hoje.getDate();
+            const mesNascimento = nascimento.getMonth();
+            const diaNascimento = nascimento.getDate();
+
+            if (mesAtual < mesNascimento || (mesAtual === mesNascimento && diaAtual < diaNascimento)) {
+                idade--;
+            }
+
+            if (idade < 18) {
+                return { valido: false, mensagem: 'É necessário ter 18 anos ou mais para se cadastrar.' };
+            }
+
+            return { valido: true, mensagem: '' };
+        }
+
+        function validarFormulario() {
+            let valido = true;
+            const senhaStatus = avaliarSenha(senha.value);
+            const nascimentoStatus = validarMaioridade(dataNascimento.value);
+
+            setFeedback('nome-feedback', '');
+            setFeedback('email-feedback', '');
+            setFeedback('telefone-feedback', '');
+            setFeedback('nascimento-feedback', '');
+            setFeedback('senha-feedback', '');
+            setFeedback('confirmar-feedback', '');
+
+            if (nome.value.trim().split(' ').filter(Boolean).length < 2) {
+                setFeedback('nome-feedback', 'Informe nome e sobrenome.');
+                valido = false;
+            }
+
+            if (!emailRegex.test(email.value.trim())) {
+                setFeedback('email-feedback', 'Digite um e-mail válido.');
+                valido = false;
+            }
+
+            if (telefone.value.replace(/\D/g, '').length < 10) {
+                setFeedback('telefone-feedback', 'Informe um telefone válido com DDD.');
+                valido = false;
+            }
+
+            if (!nascimentoStatus.valido) {
+                setFeedback('nascimento-feedback', nascimentoStatus.mensagem);
+                valido = false;
+            }
+
+            if (!senhaStatus.requisitosBasicos || !senhaStatus.tamanhoBom) {
+                setFeedback('senha-feedback', 'Use ao menos 8 caracteres com letra menor, número e caractere especial.');
+                valido = false;
+            }
+
+            if (senha.value !== confirmarSenha.value || !confirmarSenha.value) {
+                setFeedback('confirmar-feedback', 'As senhas precisam ser iguais.');
+                valido = false;
+            }
+
+            return valido;
+        }
+
+        senha.addEventListener('input', function() {
+            avaliarSenha(senha.value);
+            if (confirmarSenha.value) validarFormulario();
+        });
+
+        confirmarSenha.addEventListener('input', function() {
+            if (confirmarSenha.value && senha.value !== confirmarSenha.value) {
+                setFeedback('confirmar-feedback', 'As senhas precisam ser iguais.');
+            } else {
+                setFeedback('confirmar-feedback', '');
+            }
+        });
+
+        dataNascimento.addEventListener('blur', function() {
+            const nascimentoStatus = validarMaioridade(dataNascimento.value);
+            setFeedback('nascimento-feedback', nascimentoStatus.mensagem);
+        });
+
+        email.addEventListener('blur', function() {
+            if (email.value && !emailRegex.test(email.value.trim())) {
+                setFeedback('email-feedback', 'Digite um e-mail válido.');
+            } else {
+                setFeedback('email-feedback', '');
+            }
+        });
+
+        function traduzirErroCadastro(error) {
+            const mensagens = {
+                'auth/email-already-in-use': 'Este e-mail já está cadastrado. Volte para o login.',
+                'auth/invalid-email': 'Digite um e-mail válido.',
+                'auth/weak-password': 'A senha precisa ser mais forte.',
+                'auth/network-request-failed': 'Falha de conexão. Verifique sua internet.'
+            };
+
+            return mensagens[error.code] || 'Não foi possível concluir o cadastro agora. Tente novamente.';
+        }
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+            successMessage.classList.remove('show');
+
+            if (!validarFormulario()) return;
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Finalizando...';
+
+            try {
+                const credencial = await auth.createUserWithEmailAndPassword(email.value.trim(), senha.value);
+                const usuario = credencial.user;
+
+                await usuario.updateProfile({
+                    displayName: nome.value.trim()
+                });
+
+                await db.collection('clientes').doc(usuario.uid).set({
+                    nomeCompleto: nome.value.trim(),
+                    email: email.value.trim(),
+                    telefone: telefone.value.trim(),
+                    dataNascimento: dataNascimento.value,
+                    maiorIdade: true,
+                    criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                successMessage.classList.add('show');
+                form.reset();
+                avaliarSenha('');
+                setFeedback('nome-feedback', '');
+                setFeedback('email-feedback', '');
+                setFeedback('telefone-feedback', '');
+                setFeedback('nascimento-feedback', '');
+                setFeedback('senha-feedback', '');
+                setFeedback('confirmar-feedback', '');
+            } catch (error) {
+                setFeedback('email-feedback', traduzirErroCadastro(error));
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = '<i class="fas fa-user-check"></i> Finalizar Cadastro';
+            }
+        });
+    </script>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+</body>
+</html>
