@@ -668,8 +668,16 @@
             .loja-header { padding: 16px 5%; }
             .logo { font-size: 24px; }
             .header-icons { gap: 16px; }
-            .login-popover, .recovery-popover { right: -108px; }
-            .login-popover::before, .recovery-popover::before { right: 132px; }
+            .login-popover, .recovery-popover {
+                position: fixed;
+                top: 82px;
+                left: 14px;
+                right: 14px;
+                width: auto;
+                max-height: calc(100vh - 104px);
+                overflow-y: auto;
+            }
+            .login-popover::before, .recovery-popover::before { display: none; }
             .slide-content h1 { font-size: 2.1rem; }
             .slide-content p { font-size: 1rem; }
             .produto-img { height: 320px; }
