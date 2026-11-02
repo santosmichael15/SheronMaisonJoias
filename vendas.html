@@ -421,6 +421,7 @@
             .ghost-btn { width: 100%; }
         }
     </style>
+<link rel="stylesheet" href="compact-desktop.css">
 </head>
 <body>
     <section class="access-state" id="access-state">
@@ -478,6 +479,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
+<script src="order-workflow.js"></script>
     <script>
         let pedidosVendas = [];
         let funcionariosVendas = [];
@@ -693,38 +695,19 @@
             await batch.commit();
         }
 
-        async function avancarStatusPedido(pedidoId, proximoStatus) {
-            const pedido = pedidosVendas.find(item => item.id === pedidoId);
-            const proximaAcao = pedido ? obterProximaAcaoPedido(pedido.status) : null;
-            if (!pedido || !proximaAcao || proximaAcao.proximoStatus !== proximoStatus) return;
-
-            const confirmado = confirm(proximaAcao.confirmar);
-            if (!confirmado) return;
-
-            const campoDataStatus = {
-                em_separacao: 'separacaoEm',
-                enviado: 'enviadoEm',
-                entregue: 'entregueEm'
-            }[proximoStatus];
-
-            const dadosPedido = {
-                status: proximoStatus,
-                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            if (campoDataStatus) {
-                dadosPedido[campoDataStatus] = firebase.firestore.FieldValue.serverTimestamp();
-            }
-
-            const batch = db.batch();
-            batch.set(db.collection('pedidos').doc(pedidoId), dadosPedido, { merge: true });
-            if (pedido.clienteId) {
-                batch.set(db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id), dadosPedido, { merge: true });
-            }
-            await batch.commit();
+        async function avancarStatusPedido(pedidoId,proximoStatus) {
+            const pedido=pedidosVendas.find(item=>item.id===pedidoId),acao=pedido?obterProximaAcaoPedido(pedido.status):null;
+            if(!acao||acao.proximoStatus!==proximoStatus||!confirm(acao.confirmar))return;
+            try {await OrderWorkflow.change(db,pedidoId,proximoStatus,()=>firebase.firestore.FieldValue.serverTimestamp());}
+            catch(error){alert(error.code ? 'Não foi possível atualizar. Confira a conexão e suas permissões.' : error.message);}
         }
 
         function mostrarAcessoNegado() {
+            document.getElementById('sales-app').classList.add('hidden');
+            document.getElementById('access-state').classList.remove('hidden');
+            if(unsubscribePedidosVendas){unsubscribePedidosVendas();unsubscribePedidosVendas=null;}
+            if(unsubscribeFuncionariosVendas){unsubscribeFuncionariosVendas();unsubscribeFuncionariosVendas=null;}
+            pedidosVendas=[];funcionariosVendas=[];
             document.getElementById('access-state').innerHTML = `
                 <div class="access-card">
                     <i class="fas fa-lock"></i>
@@ -737,7 +720,8 @@
 
         async function liberarVendas(user) {
             if (String(user.email || '').toLowerCase() === 'funcionarios@gmail.com') {
-                document.getElementById('access-state').classList.add('hidden');
+                if(auth.currentUser?.uid !== user.uid)return;
+            document.getElementById('access-state').classList.add('hidden');
                 document.getElementById('sales-app').classList.remove('hidden');
                 carregarFuncionariosVendas();
                 carregarPedidosVendas();

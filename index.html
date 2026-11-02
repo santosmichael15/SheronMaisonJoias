@@ -686,6 +686,10 @@
             .zap-float { bottom: 88px; }
         }
     </style>
+<link rel="stylesheet" href="product-diversity.css">
+<script src="cart-session.js"></script>
+<script src="product-details.js" defer></script>
+<link rel="stylesheet" href="compact-desktop.css">
 </head>
 <body>
 
@@ -829,7 +833,8 @@
             <h2 class="secao-titulo">Destaques da Curadoria</h2>
             <p class="secao-subtitulo">Joias que traduzem elegância atemporal, com exclusividade para iluminar cada momento, unindo delicadeza e sofisticação.</p>
             
-            <div class="grid-produtos" id="grid-produtos">
+            <div class="catalog-tools"><div id="category-filters" role="group" aria-label="Categorias"></div><label for="product-search">Buscar na coleção</label><input id="product-search" type="search" placeholder="Buscar peça pelo nome…"><p id="catalog-result" role="status" aria-live="polite"></p></div>
+<div class="grid-produtos" id="grid-produtos">
                 <div class="produto-card">
                     <div class="img-container">
                         <img src="./Imagens utilizadas/brinco-brilhante.avif" alt="Brinco Pedras de Diamante" class="produto-img">
@@ -961,6 +966,41 @@
             </div>
         </aside>
 
+        <section id="compromisso" class="commitment" aria-labelledby="compromisso-titulo">
+    <div class="secao__cabecalho">
+        <h2 id="compromisso-titulo">Nosso compromisso com a diversidade</h2>
+        <p>
+            Elegância não tem um único rosto. A Sheron Maison mostra a diversidade de peles em sua comunicação,
+            com pessoas negras, pessoas com vitiligo e pessoas brancas, e quer que toda pessoa se sinta
+            bem-vinda, dentro e fora da loja.
+        </p>
+    </div>
+
+    <figure class="compromisso__galeria">
+<div class="diversity-carousel" role="region" aria-label="Diversidade da nossa coleção">
+<div class="diversity-stage"><article class="diversity-slide is-active" aria-hidden="false"><img src="images/diversidade/mao-anel-banner.png" alt="Mão de pele negra com anel solitário" loading="lazy"><div class="diversity-copy"><span class="diversity-eyebrow">BELEZA QUE INCLUI</span><h3>Valorização da diversidade</h3><p>A beleza tem muitos tons, histórias e formas. Nossa comunicação celebra diferentes peles para que cada pessoa se reconheça nas joias que escolhe.</p></div></article><article class="diversity-slide" aria-hidden="true"><img src="images/diversidade/pescoco-colar-banner.png" alt="Colar sobre pele com vitiligo" loading="lazy"><div class="diversity-copy"><span class="diversity-eyebrow">BELEZA QUE INCLUI</span><h3>Tecnologia inclusiva e acessibilidade</h3><p>Uma experiência para mais pessoas: Libras com o VLibras, imagens descritas e controles para explorar a coleção no seu ritmo.</p></div></article><article class="diversity-slide" aria-hidden="true"><img src="images/diversidade/brinco-colar-banner.png" alt="Brinco e colar de folhas" loading="lazy"><div class="diversity-copy"><span class="diversity-eyebrow">BELEZA QUE INCLUI</span><h3>Cidadania e geração de renda</h3><p>Valorizamos o trabalho de ourives e fornecedores negros e apoiamos o empreendedorismo de mulheres negras, com capacitação e acesso a crédito.</p></div></article></div>
+<button type="button" class="diversity-arrow diversity-previous" data-diversity="previous" aria-label="Imagem anterior">❮</button>
+<button type="button" class="diversity-arrow diversity-next" data-diversity="next" aria-label="Próxima imagem">❯</button>
+<div class="diversity-controls"><span id="diversity-position" aria-live="off">1 / 3</span><button type="button" data-diversity="pause">Pausar</button></div>
+</div><figcaption>Imagens ilustrativas geradas por inteligência artificial.</figcaption></figure>
+<div class="commitment-grid"><article class="compromisso__card">
+            <h3>Combate à discriminação</h3>
+            <p>
+                Não toleramos racismo nem qualquer outra forma de discriminação no atendimento, na loja ou nos
+                canais digitais. Qualquer pessoa pode registrar uma denúncia, uma sugestão ou um elogio pela
+                nossa ouvidoria, com resposta em até 5 dias úteis.
+            </p>
+            <p><a href="mailto:sheronmaisonjoias@gmail.com?subject=Ouvidoria%20Sheron%20Maison">Falar com a ouvidoria</a></p>
+        </article>
+<article class="compromisso__card">
+            <h3>Atendimento com respeito à identidade</h3>
+            <p>
+                No cadastro e no perfil, você pode informar seu nome social. É por ele que a loja se dirige a
+                você no site e no atendimento.
+            </p>
+            <p><a href="cadastro.html">Criar conta</a></p>
+        </article></div>
+</section>
         <!-- Contato -->
         <section class="contato-wrapper" id="contato">
             <div class="contato-info">
@@ -1265,9 +1305,6 @@
                     return true;
                 }
 
-                if (dadosCliente && dadosCliente.tipoConta === 'funcionario') {
-                    return true;
-                }
 
                 try {
                     const internoDoc = await db.collection('usuariosInternos').doc(uid).get();
@@ -1309,6 +1346,7 @@
                 if (!isAdmin) {
                     isFuncionario = await verificarUsuarioFuncionario(user.uid, dadosCliente, user.email);
                 }
+                if(auth.currentUser?.uid !== user.uid)return;
                 atualizarCabecalhoLogado(nomeCliente, user.email, isAdmin || isFuncionario);
 
                 const adminLink = document.getElementById('admin-link');
@@ -1533,7 +1571,8 @@
                     const botao = document.createElement('button');
                     botao.className = 'btn btn-add-cart';
                     botao.type = 'button';
-                    botao.innerText = 'Adicionar à Sacola';
+                    botao.disabled = !(Number(produto.preco)>0) || (produto.estoque != null && Number(produto.estoque)<=0);
+                    botao.innerText = botao.disabled ? 'Indisponível' : 'Adicionar à Sacola';
                     botao.addEventListener('click', function() {
                         adicionarAoCarrinho(produto.nome, Number(produto.preco), produto.id);
                     });
@@ -1544,6 +1583,8 @@
                     card.appendChild(imgContainer);
                     card.appendChild(info);
                     gridProdutos.appendChild(card);
+                    window.SheronProducts.attach(card, produto, adicionarAoCarrinho);
+                    card.dataset.category = produto.categoria || "";
                 });
             }
 
@@ -1551,13 +1592,14 @@
                 try {
                     const snapshot = await db.collection('produtos').where('ativo', '==', true).get();
 
-                    if (snapshot.empty) return;
+
 
                     const produtos = snapshot.docs
                         .map(doc => ({ id: doc.id, ...doc.data() }))
                         .sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
 
                     renderizarProdutos(produtos);
+                    window.refreshCatalogFilters();
                 } catch (error) {
                     console.warn('Produtos do Firebase indisponíveis. Usando vitrine local.', error);
                 }
@@ -1565,12 +1607,15 @@
 
             document.addEventListener('DOMContentLoaded', carregarProdutosDoFirebase);
 
-            let carrinho = [];
+            let carrinho = SheronCart.read();
 
             window.addEventListener('load', function() {
-                localStorage.removeItem('modaECia_carrinho');
-                carrinho = [];
                 atualizarCarrinho();
+                if(location.hash === '#sacola') toggleCart();
+            });
+
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) { carrinho = SheronCart.read(); atualizarCarrinho(); }
             });
 
             function adicionarAoCarrinho(nome, preco, produtoId = null) {
@@ -1588,6 +1633,7 @@
             }
 
             function atualizarCarrinho() {
+                try { SheronCart.write(carrinho); } catch (error) { console.warn("Sacola não pôde ser salva nesta sessão."); }
                 const cartItemsContainer = document.getElementById('cart-items');
                 const cartCount = document.getElementById('cart-count');
                 const cartTotalPrice = document.getElementById('cart-total-price');

@@ -1,0 +1,76 @@
+/* Densidade próxima de 80% no computador, sem zoom/transform da página.
+   Celulares e tablets mantêm as proporções responsivas originais. */
+@media (min-width:1025px){
+ html{font-size:80%}
+ body{font-size:1rem}
+ .logo{font-size:22.4px}
+ .loja-header,.profile-header,.orders-header,.admin-header,.sales-header{padding:16px 5%;gap:20px}
+ .loja-header .login-btn,.loja-header .signup-btn{width:128px;height:34px;padding:7px 11px}
+ .auth-actions,.header-actions,.admin-header-actions{gap:12px}
+ .btn{padding:11px 26px}
+ .carousel-container{height:68vh;min-height:340px}
+ .slide-content{max-width:640px;padding:0 16px}
+ .slide-content h1{margin-bottom:12px}
+ .slide-content p{margin-bottom:28px}
+ .produtos,.contato-wrapper{padding:64px 5%}
+ .secao-subtitulo{margin-bottom:40px}
+ .grid-produtos,#grid-produtos{grid-template-columns:repeat(auto-fill,minmax(min(224px,100%),1fr));gap:32px}
+ .produto-img{height:304px}
+ .produto-info{padding:20px 16px}
+ .catalog-tools{max-width:608px;margin-bottom:32px}
+ #category-filters{gap:10px;margin-bottom:19px}
+ #category-filters button{min-height:36px;padding:8px 18px}
+ #product-search{font-size:13px;padding:11px 14px}
+ .commitment{padding:64px 5%}
+ .commitment .secao__cabecalho p{margin-bottom:40px}
+ .diversity-stage{height:384px}
+ .diversity-copy{padding-top:32px;padding-bottom:56px}
+ .diversity-copy h3{font-size:clamp(1.7rem,2.16vw,2.7rem);margin-bottom:16px}
+ .commitment-grid{gap:32px;margin-top:32px}
+ .commitment-grid article{padding:26px}
+ .diversity-eyebrow{font-size:10px}
+ .diversity-arrow{width:36px;height:44px;font-size:18px}
+ .contato-form{padding:32px}
+ .contato-wrapper{gap:48px}
+ .mapa{height:280px}
+ footer{padding:48px 5% 16px}
+ .email-float,.zap-float{width:48px;height:48px;font-size:20px;right:24px}
+ .email-float{bottom:24px}.zap-float{bottom:80px}
+ .cart-sidebar{width:360px;right:-360px}
+ .cart-sidebar.open{right:0}
+ .cart-header,.cart-footer,.cart-items{padding:24px}
+ .login-popover,.recovery-popover{padding:18px;width:300px}
+ .login-form input,.recovery-form input{padding:10px}
+ .profile-shell,.orders-shell,.admin-shell,.sales-shell{padding:32px 5% 48px}
+ .profile-grid,.profile-hero,.orders-hero,.admin-hero,.sales-hero,.order-grid{gap:24px}
+ .hero-panel,.summary-panel,.profile-card,.order-card,.quick-panel,.tab-panel,.chart-card,.audience-card{padding:24px}
+ .form-grid{gap:16px}
+ .cadastro-hero{padding:40px 5%}
+ .cadastro-card{padding:28px;max-width:480px}
+ .cadastro-form{gap:16px}
+ .cadastro-form input{padding:10px 12px}
+ .product-drawer{max-width:520px}
+ /* Página completa do produto. A foto cabe na altura útil da janela. */
+ body.product-page header{padding:16px 5%}
+ body.product-page .breadcrumb{padding:18px 0 22px}
+ body.product-page main{max-width:1440px;padding-bottom:56px}
+ body.product-page .product-layout{gap:clamp(26px,4vw,64px)}
+ body.product-page .product-photo{height:min(560px,calc(100dvh - 150px));max-height:none;aspect-ratio:auto}
+ body.product-page .product-photo img{object-fit:contain}
+ body.product-page .product-info{padding:0}
+ body.product-page h1{font-size:clamp(2rem,2.4vw,3.2rem);margin-bottom:14px}
+ body.product-page .eyebrow{font-size:10px;margin-bottom:10px}
+ body.product-page .price{margin:18px 0}
+ body.product-page .description-title{margin:18px 0 8px}
+ body.product-page .availability{margin:18px 0 12px}
+ body.product-page .quantity button{width:36px;height:36px}
+ body.product-page .quantity input{width:48px}
+ body.product-page .subtotal{margin:16px 0}
+ body.product-page .primary{padding:12px 16px}
+ body.product-page #feedback{margin:8px 0;min-height:1em}
+ body.product-page .reviews{margin-top:48px;padding-top:32px}
+ body.product-page .review-grid{gap:16px}
+ body.product-page .review{padding:20px}
+}
+/* Mantém a foto inteira visível também em telas menores. */
+@media(max-width:1024px){body.product-page .product-photo{height:min(480px,65svh);max-height:none;aspect-ratio:auto}body.product-page .product-photo img{object-fit:contain}}

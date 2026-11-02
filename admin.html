@@ -1298,6 +1298,7 @@
             }
         }
     </style>
+<link rel="stylesheet" href="compact-desktop.css">
 </head>
 <body>
     <section class="access-state" id="access-state">
@@ -1617,6 +1618,8 @@
                 <input type="text" id="produto-nome" placeholder="Nome do produto" required>
             </div>
 
+            <div class="form-group"><label for="produto-categoria">Categoria</label><input id="produto-categoria" list="categorias-produto" maxlength="60" required placeholder="Selecione ou informe uma categoria"><datalist id="categorias-produto"><option value="Anéis"><option value="Brincos"><option value="Colares"><option value="Conjuntos"><option value="Pulseiras"></datalist></div>
+            <div class="form-group"><label for="produto-descricao">Descrição</label><textarea id="produto-descricao" rows="4" maxlength="1500" placeholder="Descreva os detalhes e o estilo da peça. Se vazio, a página usará um texto automático."></textarea></div>
             <div class="form-grid">
                 <div class="form-group">
                     <label for="produto-preco">Preço</label>
@@ -1651,7 +1654,7 @@
                     </button>
                 </div>
                 <input type="file" id="produto-imagem-arquivo" accept="image/*" hidden>
-                <span class="field-hint">Use imagens salvas na pasta Imagens utilizadas para publicar no GitHub.</span>
+                <span class="field-hint">O seletor mostra uma prévia, mas não envia o arquivo. Publique a imagem em Imagens utilizadas/ no GitHub ou informe uma URL HTTPS já acessível.</span>
             </div>
 
             <div class="form-group">
@@ -1675,6 +1678,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
+<script src="catalog-contract.js"></script>
+<script src="order-workflow.js"></script>
     <script>
         let produtosAdmin = [];
         let pedidosAdmin = [];
@@ -2367,98 +2372,20 @@
         }
 
         async function confirmarPagamentoPedido(pedidoId) {
-            const pedido = pedidosAdmin.find(item => item.id === pedidoId);
-            if (!pedido || pedido.status !== 'aguardando_pix') return;
-
-            const confirmado = confirm('Confirmar pagamento Pix deste pedido? Isso atualiza vendas e estoque.');
-            if (!confirmado) return;
-
-            const batch = db.batch();
-            const pedidoRef = db.collection('pedidos').doc(pedidoId);
-            const pedidoClienteRef = pedido.clienteId
-                ? db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id)
-                : null;
-            const dadosPedido = {
-                status: 'pago',
-                pagoEm: firebase.firestore.FieldValue.serverTimestamp(),
-                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            batch.set(pedidoRef, dadosPedido, { merge: true });
-            if (pedidoClienteRef) {
-                batch.set(pedidoClienteRef, dadosPedido, { merge: true });
-            }
-
-            (pedido.itens || []).forEach(item => {
-                if (!item.produtoId) return;
-                const produtoRef = db.collection('produtos').doc(item.produtoId);
-                batch.set(produtoRef, {
-                    estoque: firebase.firestore.FieldValue.increment(-1),
-                    vendas: firebase.firestore.FieldValue.increment(1),
-                    lucro: firebase.firestore.FieldValue.increment(Number(item.preco || 0)),
-                    atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-            });
-
-            await batch.commit();
-            await carregarProdutosAdmin();
+            if(!confirm('Confirmar pagamento Pix deste pedido? Isso atualiza vendas e estoque.'))return;
+            try {await OrderWorkflow.change(db,pedidoId,'pago',()=>firebase.firestore.FieldValue.serverTimestamp());await carregarProdutosAdmin();}
+            catch(error){alert(error.code ? 'Não foi possível confirmar. Confira a conexão e suas permissões.' : error.message);}
         }
-
-        async function avancarStatusPedido(pedidoId, proximoStatus) {
-            const pedido = pedidosAdmin.find(item => item.id === pedidoId);
-            const proximaAcao = pedido ? obterProximaAcaoPedido(pedido.status) : null;
-
-            if (!pedido || !proximaAcao || proximaAcao.proximoStatus !== proximoStatus) return;
-
-            const confirmado = confirm(proximaAcao.confirmar);
-            if (!confirmado) return;
-
-            const campoDataStatus = {
-                em_separacao: 'separacaoEm',
-                enviado: 'enviadoEm',
-                entregue: 'entregueEm'
-            }[proximoStatus];
-
-            const dadosPedido = {
-                status: proximoStatus,
-                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            if (campoDataStatus) {
-                dadosPedido[campoDataStatus] = firebase.firestore.FieldValue.serverTimestamp();
-            }
-
-            const batch = db.batch();
-            batch.set(db.collection('pedidos').doc(pedidoId), dadosPedido, { merge: true });
-
-            if (pedido.clienteId) {
-                batch.set(db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id), dadosPedido, { merge: true });
-            }
-
-            await batch.commit();
+        async function avancarStatusPedido(pedidoId,proximoStatus) {
+            const pedido=pedidosAdmin.find(item=>item.id===pedidoId),acao=pedido?obterProximaAcaoPedido(pedido.status):null;
+            if(!acao||acao.proximoStatus!==proximoStatus||!confirm(acao.confirmar))return;
+            try {await OrderWorkflow.change(db,pedidoId,proximoStatus,()=>firebase.firestore.FieldValue.serverTimestamp());}
+            catch(error){alert(error.code ? 'Não foi possível atualizar o pedido. Confira conexão e permissões.' : error.message);}
         }
-
         async function cancelarPedido(pedidoId) {
-            const pedido = pedidosAdmin.find(item => item.id === pedidoId);
-            if (!pedido || pedido.status !== 'aguardando_pix') return;
-
-            const confirmado = confirm('Cancelar este pedido? O estoque não será alterado.');
-            if (!confirmado) return;
-
-            const dadosPedido = {
-                status: 'cancelado',
-                canceladoEm: firebase.firestore.FieldValue.serverTimestamp(),
-                atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            const batch = db.batch();
-            batch.set(db.collection('pedidos').doc(pedidoId), dadosPedido, { merge: true });
-
-            if (pedido.clienteId) {
-                batch.set(db.collection('clientes').doc(pedido.clienteId).collection('pedidos').doc(pedido.id), dadosPedido, { merge: true });
-            }
-
-            await batch.commit();
+            if(!confirm('Cancelar este pedido aguardando pagamento?'))return;
+            try {await OrderWorkflow.change(db,pedidoId,'cancelado',()=>firebase.firestore.FieldValue.serverTimestamp());}
+            catch(error){alert(error.code ? 'Não foi possível cancelar. Confira conexão e permissões.' : error.message);}
         }
 
         function abrirFormularioProduto(produtoId = null) {
@@ -2476,6 +2403,8 @@
 
             if (produto) {
                 document.getElementById('produto-nome').value = produto.nome || '';
+                document.getElementById('produto-categoria').value = produto.categoria || '';
+                document.getElementById('produto-descricao').value = produto.descricao || '';
                 document.getElementById('produto-preco').value = produto.preco || 0;
                 document.getElementById('produto-estoque').value = produto.estoque || 0;
                 document.getElementById('produto-ordem').value = produto.ordem || 0;
@@ -2518,58 +2447,33 @@
             await carregarProdutosAdmin();
         }
 
+        let salvandoProduto = false;
         async function salvarProduto(event) {
             event.preventDefault();
-
+            if (salvandoProduto) return;
             const feedback = document.getElementById('product-feedback');
-            const produtoIdAtual = document.getElementById('produto-id').value;
-            const nome = document.getElementById('produto-nome').value.trim();
-            const preco = Number(document.getElementById('produto-preco').value);
-            const estoque = Number(document.getElementById('produto-estoque').value);
-            const ordem = Number(document.getElementById('produto-ordem').value || 0);
-            const ativo = document.getElementById('produto-ativo').value === 'true';
-            const imagem = document.getElementById('produto-imagem').value.trim();
-            const alt = document.getElementById('produto-alt').value.trim() || nome;
-
             feedback.className = 'form-feedback';
-            feedback.innerText = '';
-
-            if (!nome || !imagem || Number.isNaN(preco) || preco <= 0 || Number.isNaN(estoque) || estoque < 0) {
-                feedback.innerText = 'Preencha nome, imagem, preço válido e estoque.';
-                return;
-            }
-
-            const produtoId = produtoIdAtual || criarIdProduto(nome);
-            const produtoExistente = obterProdutoPorId(produtoId);
-
-            if (!produtoIdAtual && produtoExistente) {
-                feedback.innerText = 'Já existe um produto com este nome. Altere o nome ou edite o produto existente.';
-                return;
-            }
-
+            const currentId = document.getElementById('produto-id').value;
+            const value = name => document.getElementById('produto-' + name).value.trim();
+            const button = document.querySelector('button[form="product-form"][type="submit"]');
             try {
-                await db.collection('produtos').doc(produtoId).set({
-                    nome: nome,
-                    preco: preco,
-                    imagem: imagem,
-                    alt: alt,
-                    estoque: estoque,
-                    ordem: ordem,
-                    ativo: ativo,
-                    vendas: produtoExistente ? Number(produtoExistente.vendas || 0) : 0,
-                    lucro: produtoExistente ? Number(produtoExistente.lucro || 0) : 0,
-                    atualizadoEm: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
-
-                feedback.className = 'form-feedback success';
-                feedback.innerText = 'Produto salvo com sucesso.';
-                await carregarProdutosAdmin();
-
-                setTimeout(fecharFormularioProduto, 500);
-            } catch (error) {
-                console.error(error);
-                feedback.innerText = 'Não foi possível salvar. Verifique suas permissões de admin.';
-            }
+                const data = CatalogContract.validate({nome:value('nome'), categoria:value('categoria'), descricao:value('descricao'), preco:Number(value('preco')), estoque:Number(value('estoque')), ordem:Number(value('ordem') || 0), ativo:value('ativo') === 'true', imagem:value('imagem'), alt:value('alt') || value('nome')});
+                const productId = currentId || criarIdProduto(data.nome);
+                const baseline = currentId ? obterProdutoPorId(currentId) : null;
+                if(currentId && !baseline) throw Error('Recarregue o painel antes de editar este produto.');
+                salvandoProduto = true;button.disabled = true;feedback.innerText = 'Validando imagem e salvando…';
+                await CatalogContract.checkImage(data.imagem);
+                await db.runTransaction(async transaction => {
+                    const ref = db.collection('produtos').doc(productId);
+                    const snapshot = await transaction.get(ref);
+                    const payload = CatalogContract.editPayload(data, snapshot.exists ? snapshot.data() : null, baseline);
+                    transaction.set(ref, {...payload, atualizadoEm:firebase.firestore.FieldValue.serverTimestamp()}, {merge:true});
+                });
+                feedback.className = 'form-feedback success';feedback.innerText = 'Produto salvo com sucesso.';
+                await carregarProdutosAdmin();setTimeout(fecharFormularioProduto,500);
+            } catch(error) {
+                feedback.innerText = error.code ? 'Não foi possível salvar. Confira a conexão e as permissões de administrador.' : error.message;
+            } finally {salvandoProduto = false;button.disabled = false;}
         }
 
         function atualizarMetricas() {
@@ -2603,6 +2507,12 @@
         }
 
         function mostrarAcessoNegado() {
+            document.getElementById('admin-app').classList.add('hidden');
+            document.getElementById('access-state').classList.remove('hidden');
+            fecharFormularioProduto();
+            if(unsubscribePedidosAdmin){unsubscribePedidosAdmin();unsubscribePedidosAdmin=null;}
+            if(unsubscribeFuncionariosAdmin){unsubscribeFuncionariosAdmin();unsubscribeFuncionariosAdmin=null;}
+            produtosAdmin=[];pedidosAdmin=[];clientesAdmin=[];funcionariosAdmin=[];
             document.getElementById('access-state').innerHTML = `
                 <div class="access-card">
                     <i class="fas fa-lock"></i>
@@ -2621,6 +2531,7 @@
                 return;
             }
 
+            if(auth.currentUser?.uid !== user.uid) return;
             document.getElementById('admin-name').innerText = adminDoc.data().nome || user.displayName || 'Administrador';
             document.getElementById('access-state').classList.add('hidden');
             document.getElementById('admin-app').classList.remove('hidden');

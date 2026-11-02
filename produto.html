@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>Produto | Sheron Maison</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+ <link rel="stylesheet" href="produto.css">
+ <script src="cart-session.js"></script>
+ <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js" defer></script>
+ <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js" defer></script>
+ <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js" defer></script>
+ <script src="firebase-config.js" defer></script><script src="produto.js" defer></script>
+<link rel="stylesheet" href="compact-desktop.css">
+</head>
+<body class="product-page">
+ <a class="skip" href="#produto">Ir para o produto</a>
+ <header><a class="logo" href="index.html">Sheron Maison</a><nav aria-label="Principal"><a href="index.html#vitrine">Coleções</a><a href="index.html#login">Minha conta</a><a class="bag-link" href="index.html#sacola">Sacola <span id="bag-count">0</span></a></nav></header>
+ <main id="produto">
+  <nav class="breadcrumb" aria-label="Caminho"><a href="index.html">Início</a><span>/</span><a href="index.html#vitrine">Coleções</a><span>/</span><span id="breadcrumb-name">Produto</span></nav>
+  <div id="loading" role="status">Carregando os detalhes da peça…</div>
+  <section id="error" hidden><h1>Não foi possível abrir este produto</h1><p id="error-message"></p><button type="button" id="retry">Tentar novamente</button><a href="index.html#vitrine">Voltar à coleção</a></section>
+  <div id="product-content" hidden>
+   <section class="product-layout" aria-labelledby="product-name">
+    <div class="product-photo"><img id="product-image" alt=""><p id="image-fallback" hidden>Imagem indisponível no momento.</p></div>
+    <div class="product-info">
+     <p class="eyebrow">ESCOLHIDA PARA O SEU BRILHO</p>
+     <h1 id="product-name"></h1>
+     <a class="rating" href="#avaliacoes"><span class="stars" aria-label="5 de 5 estrelas">★★★★★</span><span>5,0 · 4 avaliações ilustrativas</span></a>
+     <p id="product-price" class="price"></p>
+     <h2 class="description-title">Um detalhe que faz a diferença</h2><p id="product-description" class="description"></p>
+     <p id="availability" class="availability"></p>
+     <form id="add-form">
+      <label for="quantity">Quantidade</label><div class="quantity"><button type="button" id="decrease" aria-label="Diminuir quantidade">−</button><input id="quantity" name="quantity" type="number" min="1" max="99" step="1" value="1" inputmode="numeric" required><button type="button" id="increase" aria-label="Aumentar quantidade">+</button></div>
+      <p class="subtotal">Subtotal <strong id="subtotal"></strong></p>
+      <button type="submit" class="primary" id="add-button">Adicionar à sacola</button>
+      <p id="feedback" role="status" aria-live="polite"></p>
+     </form>
+     <a class="continue" href="index.html#vitrine">← Continuar explorando a coleção</a>
+    </div>
+   </section>
+   <section id="avaliacoes" class="reviews" aria-labelledby="reviews-title"><div class="reviews-heading"><h2 id="reviews-title">Um toque de encanto</h2><p>Avaliações ilustrativas — exemplos fictícios, não enviados por clientes.</p></div><div id="review-list" class="review-grid"></div></section>
+  </div>
+ </main>
+ <footer><a class="logo" href="index.html">Sheron Maison</a><p>Joias e semijoias para valorizar a sua beleza.</p><a href="index.html#contato">Fale com a loja</a></footer>
+</body></html>
