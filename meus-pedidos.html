@@ -702,6 +702,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics-compat.js"></script>
     <script src="firebase-config.js"></script>
+<script src="order-contract.js"></script>
     <script>
         let pedidosCliente = [];
         let unsubscribePedidos = null;
@@ -787,7 +788,7 @@
         }
 
         function renderizarItensPedido(pedido) {
-            const itens = pedido.itens || [];
+            const itens = pedido.itens?.length ? OrderContract.rows(pedido) : [];
 
             if (!itens.length) {
                 return '<div class="order-item"><span>Sem itens</span><strong>-</strong></div>';
@@ -795,8 +796,8 @@
 
             return itens.map(item => `
                 <div class="order-item">
-                    <span>${escaparHtml(item.nome)}</span>
-                    <strong>${formatarMoeda(item.preco)}</strong>
+                    <span>${item.quantidade} × ${escaparHtml(item.nome)}</span>
+                    <strong>${formatarMoeda(item.subtotal)}</strong>
                 </div>
             `).join('');
         }

@@ -18,9 +18,9 @@
   $('loading').hidden=false;$('error').hidden=true;$('product-content').hidden=true;
   if(!id||id.includes('/')||id.length>1500){showError('Escolha uma peça na coleção para visualizar seus detalhes.');return;}
   try{
-   const doc=await db.collection('produtos').doc(id).get();
-   if(!doc.exists||doc.data().ativo!==true){showError('Esta peça não está disponível na coleção. Explore os outros produtos da loja.');return;}
-   const data=doc.data();product={...data,id:doc.id,preco:Number(data.preco),nome:String(data.nome||'Peça Sheron Maison')};
+   const data=await SheronApi.getProduct(id);
+   if(!data||data.ativo!==true){showError('Esta peça não está disponível na coleção. Explore os outros produtos da loja.');return;}
+   product={...data,id,preco:Number(data.preco),nome:String(data.nome||'Peça Sheron Maison')};
    const inCart=SheronCart.read().filter(item=>item.produtoId===id).length;
    const stock=product.estoque==null?99:Math.max(0,Math.floor(Number(product.estoque)||0));
    limit=Number.isFinite(product.preco)&&product.preco>0?Math.max(0,Math.min(99,stock-inCart)):0;
@@ -44,9 +44,9 @@
   if(!Number.isInteger(q)||q<1||q>limit){$('quantity').setCustomValidity('Escolha uma quantidade entre 1 e '+limit+'.');$('quantity').reportValidity();return;}
   busy=true;$('add-button').disabled=true;$('feedback').textContent='Conferindo a disponibilidade…';update();
   try{
-   const snapshot=await db.collection('produtos').doc(id).get(),fresh=snapshot.data();
+   const fresh=await SheronApi.getProduct(id);
    const cart=SheronCart.read(),already=cart.filter(item=>item.produtoId===id).length;
-   if(!snapshot.exists||fresh.ativo!==true||!Number.isFinite(Number(fresh.preco))||Number(fresh.preco)<=0)throw Error('Esta peça não está mais disponível.');
+   if(!fresh||fresh.ativo!==true||!Number.isFinite(Number(fresh.preco))||Number(fresh.preco)<=0)throw Error('Esta peça não está mais disponível.');
    if(fresh.estoque!=null&&already+q>Number(fresh.estoque))throw Error('O estoque mudou. Atualize a página para conferir a quantidade disponível.');
    for(let i=0;i<q;i++)cart.push({nome:String(fresh.nome||product.nome),preco:Number(fresh.preco),produtoId:id});
    SheronCart.write(cart);location.href='index.html#sacola';

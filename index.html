@@ -687,6 +687,7 @@
         }
     </style>
 <link rel="stylesheet" href="product-diversity.css">
+<script src="sheron-api.js"></script>
 <script src="cart-session.js"></script>
 <script src="product-details.js" defer></script>
 <link rel="stylesheet" href="compact-desktop.css">
@@ -1588,24 +1589,27 @@
                 });
             }
 
-            async function carregarProdutosDoFirebase() {
+            let carregandoCatalogo = false;
+            async function carregarProdutosDaApi() {
+                if (carregandoCatalogo) return;
+                carregandoCatalogo = true;
+                document.getElementById('grid-produtos').replaceChildren();
+                document.getElementById('catalog-result').textContent = 'Carregando nossa coleção…';
                 try {
-                    const snapshot = await db.collection('produtos').where('ativo', '==', true).get();
-
-
-
-                    const produtos = snapshot.docs
-                        .map(doc => ({ id: doc.id, ...doc.data() }))
-                        .sort((a, b) => (a.ordem || 0) - (b.ordem || 0));
-
+                    const produtos = await SheronApi.listProducts();
                     renderizarProdutos(produtos);
                     window.refreshCatalogFilters();
                 } catch (error) {
-                    console.warn('Produtos do Firebase indisponíveis. Usando vitrine local.', error);
-                }
+                    console.warn('Catálogo da API indisponível.', error);
+                    document.getElementById('grid-produtos').replaceChildren();
+                    const aviso = document.getElementById('catalog-result');
+                    aviso.textContent = 'Não foi possível carregar a coleção. ';
+                    const tentar = document.createElement('button'); tentar.type = 'button'; tentar.textContent = 'Tentar novamente';
+                    tentar.onclick = carregarProdutosDaApi; aviso.appendChild(tentar);
+                } finally { carregandoCatalogo = false; }
             }
 
-            document.addEventListener('DOMContentLoaded', carregarProdutosDoFirebase);
+            document.addEventListener('DOMContentLoaded', carregarProdutosDaApi);
 
             let carrinho = SheronCart.read();
 

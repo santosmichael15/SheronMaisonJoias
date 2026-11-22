@@ -1443,7 +1443,7 @@
                 <div class="panel-toolbar">
                     <div class="panel-title">
                         <h2>Gráfico</h2>
-                        <p>Vendas mensais em linha crescente, com dados demonstrativos até conectarmos pedidos reais por mês.</p>
+                        <p>Unidades de pedidos confirmados no ano atual. Pedidos antigos sem data de pagamento usam a data de criação.</p>
                     </div>
                     <button class="ghost-btn" type="button" onclick="renderizarGraficoAdmin()">
                         <i class="fas fa-rotate"></i> Atualizar
@@ -1490,7 +1490,7 @@
                     <div>
                         <i class="fas fa-chart-line"></i>
                         <h2>Gráfico</h2>
-                        <p>Depois conectaremos as vendas mensais em um gráfico de linha para acompanhar a evolução da loja.</p>
+                        <p>O gráfico considera pedidos pagos do ano atual; pedidos antigos sem data de pagamento usam a data de criação.</p>
                     </div>
                 </div>
                 </div>
@@ -1678,6 +1678,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
+<script src="order-contract.js"></script>
 <script src="catalog-contract.js"></script>
 <script src="order-workflow.js"></script>
     <script>
@@ -1738,8 +1739,8 @@
                         <p class="preco">${formatarMoeda(produto.preco)}</p>
                         <div class="product-meta">
                             <span><strong>${produto.estoque || 0}</strong> estoque</span>
-                            <span><strong>${produto.vendas || 0}</strong> vendas</span>
-                            <span><strong>${formatarMoeda((produto.vendas || 0) * (produto.preco || 0))}</strong> faturamento</span>
+                            <span><strong>${OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.units || 0}</strong> vendas</span>
+                            <span><strong>${formatarMoeda(OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.revenue || 0)}</strong> faturamento</span>
                             <span><strong>${produto.ativo ? 'Ativo' : 'Oculto'}</strong> status</span>
                         </div>
                         <div class="product-admin-actions">
@@ -1775,10 +1776,10 @@
 
             tbody.innerHTML = produtosAdmin.map(produto => {
                 const estoque = Number(produto.estoque || 0);
-                const vendas = Number(produto.vendas || 0);
+                const vendas = (OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.units || 0);
                 const preco = Number(produto.preco || 0);
                 const ativo = produto.ativo !== false;
-                const faturamento = vendas * preco;
+                const faturamento = OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.revenue || 0;
                 const estoqueClasse = obterClasseEstoque(estoque);
 
                 return `
@@ -1820,7 +1821,7 @@
 
             produtosAdmin.forEach(produto => {
                 const estoque = Number(produto.estoque || 0);
-                const vendas = Number(produto.vendas || 0);
+                const vendas = (OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.units || 0);
                 const preco = Number(produto.preco || 0);
                 const ativo = produto.ativo !== false;
 
@@ -1830,7 +1831,7 @@
                     estoque,
                     vendas,
                     preco.toFixed(2).replace('.', ','),
-                    (vendas * preco).toFixed(2).replace('.', ','),
+                    (OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.revenue || 0).toFixed(2).replace('.', ','),
                     obterAlertaEstoque(estoque, ativo)
                 ]);
             });
@@ -1849,27 +1850,10 @@
             URL.revokeObjectURL(url);
         }
 
-        function obterDadosMensaisDemo() {
-            const labels = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-            const vendasReais = produtosAdmin.reduce((total, produto) => total + Number(produto.vendas || 0), 0);
-            const totalAtual = Math.max(vendasReais, 8);
-            const base = Math.max(1, Math.floor(totalAtual / 5));
-            const valores = [
-                base,
-                base + 1,
-                base + 2,
-                base + 3,
-                base + 5,
-                base + 6,
-                base + 8,
-                base + 10,
-                base + 11,
-                base + 13,
-                base + 15,
-                totalAtual
-            ];
-
-            return { labels, valores };
+        function obterDadosMensaisReais() {
+            const labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+            const valores = OrderContract.statistics(pedidosAdmin).monthly;
+            return {labels, valores};
         }
 
         function atualizarInsightsGrafico(labels, valores) {
@@ -1878,10 +1862,10 @@
             const melhorIndice = valores.indexOf(maiorValor);
             const primeiro = valores[0] || 1;
             const ultimo = valores[valores.length - 1] || 0;
-            const crescimento = Math.round(((ultimo - primeiro) / primeiro) * 100);
+            const crescimento = total ? Math.round(((ultimo - primeiro) / primeiro) * 100) : 0;
 
             document.getElementById('chart-total-vendas').innerText = total;
-            document.getElementById('chart-melhor-mes').innerText = labels[melhorIndice];
+            document.getElementById('chart-melhor-mes').innerText = (total ? labels[melhorIndice] : 'Sem vendas');
             document.getElementById('chart-crescimento').innerText = `${crescimento}%`;
         }
 
@@ -1954,7 +1938,7 @@
             const canvas = document.getElementById('sales-chart');
             if (!canvas || typeof Chart === 'undefined') return;
 
-            const { labels, valores } = obterDadosMensaisDemo();
+            const { labels, valores } = obterDadosMensaisReais();
             atualizarInsightsGrafico(labels, valores);
             renderizarFaixasEtarias();
 
@@ -1967,7 +1951,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Vendas por mês',
+                        label: 'Unidades confirmadas por mês (ano atual)',
                         data: valores,
                         borderColor: '#8C123D',
                         backgroundColor: 'rgba(140, 18, 61, 0.12)',
@@ -2148,10 +2132,10 @@
 
             container.innerHTML = pedidosAdmin.map(pedido => {
                 const status = obterStatusPedido(pedido.status);
-                const itens = (pedido.itens || []).map(item => `
+                const itens = OrderContract.rows(pedido).map(item => `
                     <div class="order-item">
-                        <span>${escaparHtml(item.nome)}</span>
-                        <strong>${formatarMoeda(Number(item.preco || 0))}</strong>
+                        <span>${item.quantidade} × ${escaparHtml(item.nome)}</span>
+                        <strong>${formatarMoeda(item.subtotal)}</strong>
                     </div>
                 `).join('');
                 const clienteResumo = pedido.clienteNome || pedido.clienteEmail || 'Cliente não informado';
@@ -2217,6 +2201,7 @@
 
                 renderizarPedidosAdmin();
                 renderizarFuncionariosAdmin(false);
+                renderizarProdutosAdmin();renderizarPlanilhaAdmin();renderizarGraficoAdmin();atualizarMetricas();
             }, error => {
                 console.error('Erro ao escutar pedidos.', error);
                 container.innerHTML = '<p class="loading-state">Não foi possível acompanhar os pedidos em tempo real.</p>';
@@ -2479,8 +2464,8 @@
         function atualizarMetricas() {
             const ativos = produtosAdmin.filter(produto => produto.ativo !== false);
             const estoque = produtosAdmin.reduce((total, produto) => total + Number(produto.estoque || 0), 0);
-            const vendas = produtosAdmin.reduce((total, produto) => total + Number(produto.vendas || 0), 0);
-            const lucro = produtosAdmin.reduce((total, produto) => total + (Number(produto.vendas || 0) * Number(produto.preco || 0)), 0);
+            const vendas = produtosAdmin.reduce((total, produto) => total + (OrderContract.statistics(pedidosAdmin).products.get(produto.id)?.units || 0), 0);
+            const lucro = OrderContract.statistics(pedidosAdmin).revenue;
 
             document.getElementById('metric-produtos').innerText = ativos.length;
             document.getElementById('metric-estoque').innerText = estoque;

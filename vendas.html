@@ -479,6 +479,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
     <script src="firebase-config.js"></script>
+<script src="order-contract.js"></script>
 <script src="order-workflow.js"></script>
     <script>
         let pedidosVendas = [];
@@ -559,13 +560,13 @@
         }
 
         function renderizarItens(pedido) {
-            const itens = pedido.itens || [];
+            const itens = pedido.itens?.length ? OrderContract.rows(pedido) : [];
             if (!itens.length) return '<div class="order-item"><span>Sem itens</span><strong>-</strong></div>';
 
             return itens.map(item => `
                 <div class="order-item">
-                    <span>${escaparHtml(item.nome)}</span>
-                    <strong>${formatarMoeda(item.preco)}</strong>
+                    <span>${item.quantidade} × ${escaparHtml(item.nome)}</span>
+                    <strong>${formatarMoeda(item.subtotal)}</strong>
                 </div>
             `).join('');
         }
